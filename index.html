@@ -3,10 +3,25 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Canvas img snap prototype</title>
+	<link rel="stylesheet" href="css/app.css">
 </head>
 <body>
 
-	<p>A prototype that uses getMediaUser, the user can take a snap photo and it is placed into the canvas cropped.</p>
+	<div class="p-canvas-webcam-prototype">
+
+		<div id="my_camera" class="box"></div>
+
+		<div id="my_result"></div>
+
+		<canvas id="myCanvas" class="box" style="width: 320px; height: 240px;"></canvas>
+
+		<a class="take_snapshop" href="javascript:void(0)">Take Snapshot</a>
+
+	</div>
+
+	<script src="js/vendor/webcamjs/webcam.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/fabric.js/1.5.0/fabric.min.js"></script>
+	<script src="js/app.js"></script>
 
 </body>
 </html>

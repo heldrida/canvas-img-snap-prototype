@@ -21,3 +21,5 @@
 		http://createjs.com/docs/easeljs/modules/EaselJS.html
 
 		http://pixijs.github.io/examples/index.html?s=basics&f=basic.js&title=Basics
+
+		https://github.com/jhuckaby/webcamjs
