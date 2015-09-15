@@ -101,12 +101,6 @@
 
 		},
 
-		print: function () {
-
-			this.el_my_result.innerHTML = "<h1>image result:</h1><img src='" + this.stage.canvas.toDataURL("image/png") + "' alt='from canvas'/>";
-
-		},
-
 		placeMask: function () {
 
 			var img = new createjs.Bitmap('img/mask.png');
@@ -119,7 +113,13 @@
 
 
 
-		}
+		},
+
+		print: function () {
+
+			this.el_my_result.innerHTML = "<h1>image result:</h1><img src='" + this.stage.canvas.toDataURL("image/png") + "' alt='from canvas'/>";
+
+		},
 
 	};
 
