@@ -25,7 +25,7 @@
 			this.el_take_snapshot = document.querySelector('.take_snapshop');
 			this.container = new createjs.Container();
 
-			this.dragBox = new createjs.Shape(new createjs.Graphics().beginFill("#ff0000").drawRect(0, 0, this.stage.canvas.width, this.stage.canvas.height))
+			this.dragBox = new createjs.Shape(new createjs.Graphics().beginFill("#FFFFFF").drawRect(0, 0, this.stage.canvas.width, this.stage.canvas.height))
 			this.stage.addChild(this.dragBox);
 
 		},
@@ -43,21 +43,6 @@
 				}.bind(this));
 
 			}.bind(this));
-			/*
-			this.container.on('mousedown', function (evt) {
-
-				var offset = {
-					x: evt.target.x - evt.stageX,
-					y: evt.target.y - evt.stageY
-				};
-
-				evt.target.on("pressmove", function (evt) {
-					evt.target.x = evt.stageX + offset.x;
-					evt.target.y = evt.stageY + offset.y;
-				});
-
-			});
-			*/
 
 			this.dragBox.addEventListener("mousedown", function (event) {
 
@@ -70,8 +55,6 @@
 
 					this.container.x = event.stageX - offset.x;
 					this.container.y = event.stageY - offset.y;
-
-					console.log('x: ' + this.container.x + ', y: ' + this.container.y);
 
 				}.bind(this));
 
@@ -111,6 +94,10 @@
 			this.container.addChild(image, shape);
 
 			this.stage.addChild(this.container);
+
+			var img = new createjs.Bitmap('img/mask.png');
+			this.stage.addChild(img);
+			//this.stage.setChildIndex(img, this.stage.getNumChildren() + 1);
 
 			this.stage.update();
 
