@@ -22,11 +22,13 @@
 			createjs.Touch.enable(this.stage);
 
 			this.el_my_result = document.getElementById('my_result');
-			this.el_take_snapshot = document.querySelector('.take_snapshop');
+			this.el_take_snapshot = document.querySelector('.take_snapshot');
 			this.container = new createjs.Container();
 
 			this.dragBox = new createjs.Shape(new createjs.Graphics().beginFill("#FFFFFF").drawRect(0, 0, this.stage.canvas.width, this.stage.canvas.height))
 			this.stage.addChild(this.dragBox);
+
+			this.btnPrint = document.querySelector('.btn-print');
 
 		},
 
@@ -58,6 +60,10 @@
 
 				}.bind(this));
 
+			}.bind(this));
+
+			this.btnPrint.addEventListener('click', function (e) {
+				this.print();
 			}.bind(this));
 
 		},
@@ -100,6 +106,12 @@
 			//this.stage.setChildIndex(img, this.stage.getNumChildren() + 1);
 
 			this.stage.update();
+
+		},
+
+		print: function () {
+
+			this.el_my_result.innerHTML = "<h1>image result:</h1><img src='" + this.stage.canvas.toDataURL("image/png") + "' alt='from canvas'/>";
 
 		}
 
