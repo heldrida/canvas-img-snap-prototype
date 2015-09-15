@@ -23,3 +23,8 @@
 		http://pixijs.github.io/examples/index.html?s=basics&f=basic.js&title=Basics
 
 		https://github.com/jhuckaby/webcamjs
+
+		http://jsfiddle.net/MZ6LE/9/
+
+		container drag, children
+		http://jsfiddle.net/lannymcnie/jKuyy/
