@@ -74,6 +74,14 @@
 
 		take_snapshot_to_canvas: function (data_uri) {
 
+			/*
+			// reset
+			container.removeAllChildren();
+			container.removeAllEventListeners();
+			stage.removeAllChildren();
+ 			stage.removeAllEventListeners();
+			 */
+
 			var image = new createjs.Bitmap(data_uri),
 				shape = new createjs.Shape();
 
