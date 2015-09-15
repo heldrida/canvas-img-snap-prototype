@@ -42,6 +42,7 @@
 
 					this.placeImageToCanvas.call(this, data_uri);
 					this.placeMask.call(this);
+					this.placeResizeHandlers.call(this);
 
 				}.bind(this));
 
@@ -90,12 +91,9 @@
 			// reset
 			this.container.removeAllChildren();
 
-			var image = new createjs.Bitmap(data_uri),
-				shape = new createjs.Shape();
+			var image = new createjs.Bitmap(data_uri);
 
-			shape.graphics.beginFill("#FFCC00").drawRect(0, 0, 10, 10);
-
-			this.container.addChild(image, shape);
+			this.container.addChild(image);
 
 			this.stage.addChild(this.container);
 
@@ -105,13 +103,21 @@
 
 			var img = new createjs.Bitmap('img/mask.png');
 			this.stage.addChild(img);
-			this.stage.setChildIndex(img, this.stage.getNumChildren() + 1);
+			//this.stage.setChildIndex(img, this.stage.getNumChildren() + 1);
 
 		},
 
 		placeResizeHandlers: function () {
 
+			var shape = new createjs.Shape();
 
+			shape.graphics.beginFill("#FFCC00").drawRect(0, 0, 10, 10);
+
+			this.stage.setChildIndex(shape, this.stage.getNumChildren() + 1);
+
+			this.container.addChild(shape);
+
+			console.log(this.container);
 
 		},
 
