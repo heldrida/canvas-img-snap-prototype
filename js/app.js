@@ -40,7 +40,8 @@
 
 				Webcam.snap( function (data_uri) {
 
-					this.take_snapshot_to_canvas.call(this, data_uri);
+					this.placeImageToCanvas.call(this, data_uri);
+					this.placeMask.call(this);
 
 				}.bind(this));
 
@@ -84,13 +85,10 @@
 
 		},
 
-		take_snapshot_to_canvas: function (data_uri) {
+		placeImageToCanvas: function (data_uri) {
 
 			// reset
 			this.container.removeAllChildren();
-			//container.removeAllEventListeners();
-			//this.stage.removeAllChildren();
- 			//stage.removeAllEventListeners();
 
 			var image = new createjs.Bitmap(data_uri),
 				shape = new createjs.Shape();
@@ -101,17 +99,25 @@
 
 			this.stage.addChild(this.container);
 
-			var img = new createjs.Bitmap('img/mask.png');
-			this.stage.addChild(img);
-			//this.stage.setChildIndex(img, this.stage.getNumChildren() + 1);
-
-			this.stage.update();
-
 		},
 
 		print: function () {
 
 			this.el_my_result.innerHTML = "<h1>image result:</h1><img src='" + this.stage.canvas.toDataURL("image/png") + "' alt='from canvas'/>";
+
+		},
+
+		placeMask: function () {
+
+			var img = new createjs.Bitmap('img/mask.png');
+			this.stage.addChild(img);
+			this.stage.setChildIndex(img, this.stage.getNumChildren() + 1);
+
+		},
+
+		placeResizeHandlers: function () {
+
+
 
 		}
 

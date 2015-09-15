@@ -28,3 +28,5 @@
 
 		container drag, children
 		http://jsfiddle.net/lannymcnie/jKuyy/
+
+		http://weworkweplay.com/play/saving-html5-canvas-as-image/
