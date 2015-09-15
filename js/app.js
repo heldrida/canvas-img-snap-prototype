@@ -23,38 +23,52 @@
 		take_snapshot_to_canvas();
 	}.bind(this));
 
+	var stage = new createjs.Stage("myCanvas"),
+		container = new createjs.Container(),
+		image = false;
+
+	stage.canvas.width = 320;
+	stage.canvas.height = 240;
+
+	/*
+	createjs.Ticker.addEventListener("tick", handleTick);
+
+	function handleTick(event) {
+		stage.update();
+	}
+	*/
+
 	// canvas manip
 	function take_snapshot_to_canvas() {
-		/*
-		var canvas = new fabric.Canvas('myCanvas');
-		var imgElement = document.getElementById('my-image');
-		var imgInstance = new fabric.Image(imgElement, {
-		  left: 100,
-		  top: 100,
-		  angle: 30,
-		  opacity: 0.85
-		});
-		canvas.add(imgInstance);
-		*/
 
 		Webcam.snap( function (data_uri) {
 
-			var img = new Image();
-			img.src = data_uri;
+			// reset
+			stage.removeAllChildren();
+ 			stage.removeAllEventListeners();
 
-			var canvas = new fabric.Canvas('myCanvas', {
-				width: 320,
-				height: 240
+			image = new createjs.Bitmap(data_uri);
+
+			container.on('mousedown', function (evt) {
+
+				var offset = {
+					x: evt.target.x - evt.stageX,
+					y: evt.target.y - evt.stageY
+				};
+
+				evt.target.on("pressmove", function (evt) {
+					evt.target.x = evt.stageX + offset.x;
+					evt.target.y = evt.stageY + offset.y;
+					stage.update();
+				});
+
 			});
 
-			var imgInstance = new fabric.Image(img, {
-			  left: 0,
-			  top: 0
-			});
-			canvas.add(imgInstance);
+			container.addChild(image);
 
+			stage.addChild(container);
 
-			el_my_result.innerHTML = '<img id="my-image" src="' + data_uri + '"/>';
+			stage.update();
 
 		});
 
