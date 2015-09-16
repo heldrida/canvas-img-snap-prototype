@@ -11,6 +11,7 @@
 			this.setVars();
 			this.setListeners();
 			this.setWebcam();
+			this.placeMask();
 
 		},
 
@@ -76,6 +77,32 @@
 
 		},
 
+		setShapeListeners: function (arr) {
+
+			arr[0].addEventListener('mousedown', function (event) {
+
+				var offset = new createjs.Point();
+
+				offset.x = this.stage.mouseX - event.target.x;
+				offset.y = this.stage.mouseX - event.target.x;
+
+				event.target.addEventListener('pressmove', function (event) {
+
+					arr[0].x = event.stageX - offset.x;
+					arr[0].y = event.stageY - offset.y;
+
+					// arr[1].x = Math.abs(event.stageX - offset.x) * -1;
+					// arr[1].y = Math.abs(event.stageY - offset.y) * -1;
+
+					console.log('arr[0].x: ', arr[0].x);
+					console.log('arr[0].y: ', arr[0].y);
+
+				}.bind(this));
+
+			}.bind(this));
+
+		},
+
 		tickHandler: function () {
 
 			this.stage.update();
@@ -116,15 +143,17 @@
 		placeResizeHandlers: function () {
 
 			var shape_size = { w: 10, h: 10 },
-				shp1 = new createjs.Shape(),
-				shp2 = new createjs.Shape(),
-				shp3 = new createjs.Shape(),
-				shp4 = new createjs.Shape();
+				shp1 = new createjs.Shape(), // q4
+				shp2 = new createjs.Shape(), // q3
+				shp3 = new createjs.Shape(), // q1
+				shp4 = new createjs.Shape(); // q2
 
 			shp1.graphics.beginFill("#FFCC00").drawRect(0, 0, shape_size.w, shape_size.h);
-			shp2.graphics.beginFill("#00FFCC").drawRect(0, this.snapshot.image.height - shape_size.h, shape_size.w, shape_size.h);
-			shp3.graphics.beginFill("#CC00FF").drawRect(this.snapshot.image.width - shape_size.w, 0, shape_size.w, shape_size.h);
-			shp4.graphics.beginFill("#FF00CC").drawRect(this.snapshot.image.width - shape_size.w, this.snapshot.image.height - shape_size.h, shape_size.w, shape_size.h);
+			shp2.graphics.beginFill("#FF0000").drawRect(0, this.snapshot.image.height - shape_size.h, shape_size.w, shape_size.h);
+			shp3.graphics.beginFill("#00FF00").drawRect(this.snapshot.image.width - shape_size.w, 0, shape_size.w, shape_size.h);
+			shp4.graphics.beginFill("#0000FF").drawRect(this.snapshot.image.width - shape_size.w, this.snapshot.image.height - shape_size.h, shape_size.w, shape_size.h);
+
+			this.setShapeListeners([shp1, shp2, shp3, shp4]);
 
 			this.handler_container.addChild(shp1, shp2, shp3, shp4);
 
