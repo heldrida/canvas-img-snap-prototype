@@ -109,59 +109,59 @@
 
 							if (key === 'q4') {
 
-								obj['q4'].x = event.stageX - offset.x;
-								obj['q4'].y = event.stageY - offset.y;
+								obj['q4'].x = params.x;
+								obj['q4'].y = params.y;
 
-								obj['q3'].x = Math.abs(event.stageX - offset.x);
-								obj['q3'].y = Math.abs(event.stageY - offset.y) * -1;
+								obj['q3'].x = Math.abs(params.x);
+								obj['q3'].y = Math.abs(params.y) * -1;
 
-								obj['q2'].x = Math.abs(event.stageX - offset.x) * -1;
-								obj['q2'].y = Math.abs(event.stageY - offset.y) * -1;
+								obj['q2'].x = Math.abs(params.x) * -1;
+								obj['q2'].y = Math.abs(params.y) * -1;
 
-								obj['q1'].x = Math.abs(event.stageX - offset.x) * -1;
-								obj['q1'].y = Math.abs(event.stageY - offset.y);
+								obj['q1'].x = Math.abs(params.x) * -1;
+								obj['q1'].y = Math.abs(params.y);
 
 							} else if (key === 'q3') {
 
-								obj['q4'].x = Math.abs(event.stageX - offset.x);
-								obj['q4'].y = Math.abs(event.stageY - offset.y);
+								obj['q4'].x = Math.abs(params.x);
+								obj['q4'].y = Math.abs(params.y);
 
-								obj['q3'].x = event.stageX - offset.x;
-								obj['q3'].y = event.stageY - offset.y;
+								obj['q3'].x = params.x;
+								obj['q3'].y = params.y;
 
-								obj['q2'].x = Math.abs(event.stageX - offset.x) * -1;
-								obj['q2'].y = Math.abs(event.stageY - offset.y) * -1;
+								obj['q2'].x = Math.abs(params.x) * -1;
+								obj['q2'].y = Math.abs(params.y) * -1;
 
-								obj['q1'].x = Math.abs(event.stageX - offset.x) * -1;
-								obj['q1'].y = Math.abs(event.stageY - offset.y);
+								obj['q1'].x = Math.abs(params.x) * -1;
+								obj['q1'].y = Math.abs(params.y);
 
 							} else if (key === 'q2') {
 
-								obj['q4'].x = Math.abs(event.stageX - offset.x);
-								obj['q4'].y = Math.abs(event.stageY - offset.y);
+								obj['q4'].x = Math.abs(params.x);
+								obj['q4'].y = Math.abs(params.y);
 
-								obj['q3'].x = Math.abs(event.stageX - offset.x);
-								obj['q3'].y = Math.abs(event.stageY - offset.y) * -1;
+								obj['q3'].x = Math.abs(params.x);
+								obj['q3'].y = Math.abs(params.y) * -1;
 
-								obj['q2'].x = event.stageX - offset.x;
-								obj['q2'].y = event.stageY - offset.y;
+								obj['q2'].x = params.x;
+								obj['q2'].y = params.y;
 
-								obj['q1'].x = Math.abs(event.stageX - offset.x) * -1;
-								obj['q1'].y = Math.abs(event.stageY - offset.y);
+								obj['q1'].x = Math.abs(params.x) * -1;
+								obj['q1'].y = Math.abs(params.y);
 
 							} else if (key === 'q1') {
 
-								obj['q4'].x = Math.abs(event.stageX - offset.x);
-								obj['q4'].y = Math.abs(event.stageY - offset.y);
+								obj['q4'].x = Math.abs(params.x);
+								obj['q4'].y = Math.abs(params.y);
 
-								obj['q3'].x = Math.abs(event.stageX - offset.x);
-								obj['q3'].y = Math.abs(event.stageY - offset.y) * -1;
+								obj['q3'].x = Math.abs(params.x);
+								obj['q3'].y = Math.abs(params.y) * -1;
 
-								obj['q2'].x = Math.abs(event.stageX - offset.x) * -1;
-								obj['q2'].y = Math.abs(event.stageY - offset.y) * -1;
+								obj['q2'].x = Math.abs(params.x) * -1;
+								obj['q2'].y = Math.abs(params.y) * -1;
 
-								obj['q1'].x = Math.abs(event.stageX - offset.x) * -1;
-								obj['q1'].y = Math.abs(event.stageY - offset.y);
+								obj['q1'].x = Math.abs(params.x) * -1;
+								obj['q1'].y = Math.abs(params.y);
 
 							}
 
