@@ -84,6 +84,8 @@
 
 		setShapeListeners: function (obj) {
 
+			var params;
+
 			for (var key in obj) {
 
 				(function (context, key) {
@@ -97,11 +99,25 @@
 
 						event.target.addEventListener('pressmove', function (event) {
 
-							var params = {
-								'key': key,
-								'x': event.stageX - offset.x,
-								'y': event.stageY - offset.y
-							};
+							// keep ratio
+							// todo: for the moment only applied for `q4`
+							if (key === 'q4') {
+
+								params = {
+									'key': key,
+									'x': event.stageX - offset.x,
+									'y': (event.stageY - offset.y) * ((event.stageX - offset.x) / (event.stageY - offset.y)) // event.stageY - offset.y
+								};
+
+							} else {
+
+								params = {
+									'key': key,
+									'x': event.stageX - offset.x,
+									'y': event.stageY - offset.y
+								};
+
+							}
 
 							if (context.calcScalePercentage.call(context, params) === false) {
 								return false;
