@@ -105,12 +105,19 @@
 
 								obj['q3'].x = Math.abs(event.stageX - offset.x);
 								obj['q3'].y = Math.abs(event.stageY - offset.y) * -1;
-
+								/*
 								obj['q2'].x = Math.abs(event.stageX - offset.x) * -1;
 								obj['q2'].y = Math.abs(event.stageY - offset.y);
 
 								obj['q1'].x = Math.abs(event.stageX - offset.x) * -1;
 								obj['q1'].y = Math.abs(event.stageY - offset.y) * -1;
+								*/
+
+								obj['q2'].x = Math.abs(event.stageX - offset.x) * -1;
+								obj['q2'].y = Math.abs(event.stageY - offset.y) * -1;
+
+								obj['q1'].x = Math.abs(event.stageX - offset.x) * -1;
+								obj['q1'].y = Math.abs(event.stageY - offset.y);
 
 							} else if (key === 'q3') {
 
@@ -121,24 +128,24 @@
 								obj['q3'].y = event.stageY - offset.y;
 
 								obj['q2'].x = Math.abs(event.stageX - offset.x) * -1;
-								obj['q2'].y = Math.abs(event.stageY - offset.y);
+								obj['q2'].y = Math.abs(event.stageY - offset.y) * -1;
 
 								obj['q1'].x = Math.abs(event.stageX - offset.x) * -1;
-								obj['q1'].y = Math.abs(event.stageY - offset.y) * -1;
+								obj['q1'].y = Math.abs(event.stageY - offset.y);
 
 							} else if (key === 'q2') {
 
 								obj['q4'].x = Math.abs(event.stageX - offset.x);
-								obj['q4'].y = event.stageY - offset.y;
+								obj['q4'].y = Math.abs(event.stageY - offset.y);
 
 								obj['q3'].x = Math.abs(event.stageX - offset.x);
 								obj['q3'].y = Math.abs(event.stageY - offset.y) * -1;
 
-								obj['q2'].x = Math.abs(event.stageX - offset.x) * -1;
-								obj['q2'].y = Math.abs(event.stageY - offset.y);
+								obj['q2'].x = event.stageX - offset.x;
+								obj['q2'].y = event.stageY - offset.y;
 
 								obj['q1'].x = Math.abs(event.stageX - offset.x) * -1;
-								obj['q1'].y = Math.abs(event.stageY - offset.y) * -1;
+								obj['q1'].y = Math.abs(event.stageY - offset.y);
 
 							} else if (key === 'q1') {
 
@@ -149,10 +156,10 @@
 								obj['q3'].y = Math.abs(event.stageY - offset.y) * -1;
 
 								obj['q2'].x = Math.abs(event.stageX - offset.x) * -1;
-								obj['q2'].y = Math.abs(event.stageY - offset.y);
+								obj['q2'].y = Math.abs(event.stageY - offset.y) * -1;
 
 								obj['q1'].x = Math.abs(event.stageX - offset.x) * -1;
-								obj['q1'].y = Math.abs(event.stageY - offset.y) * -1;
+								obj['q1'].y = Math.abs(event.stageY - offset.y);
 
 							}
 
@@ -215,8 +222,10 @@
 
 			shp1.graphics.beginFill("#FFCC00").drawRect(0, 0, shape_size.w, shape_size.h);
 			shp2.graphics.beginFill("#FF0000").drawRect(0, this.snapshot.image.height - shape_size.h, shape_size.w, shape_size.h);
-			shp3.graphics.beginFill("#00FF00").drawRect(this.snapshot.image.width - shape_size.w, 0, shape_size.w, shape_size.h);
-			shp4.graphics.beginFill("#0000FF").drawRect(this.snapshot.image.width - shape_size.w, this.snapshot.image.height - shape_size.h, shape_size.w, shape_size.h);
+			//shp3.graphics.beginFill("#00FF00").drawRect(this.snapshot.image.width - shape_size.w, 0, shape_size.w, shape_size.h);
+			//shp4.graphics.beginFill("#0000FF").drawRect(this.snapshot.image.width - shape_size.w, this.snapshot.image.height - shape_size.h, shape_size.w, shape_size.h);
+			shp3.graphics.beginFill("#00FF00").drawRect(this.snapshot.image.width - shape_size.w, this.snapshot.image.height - shape_size.h, shape_size.w, shape_size.h);
+			shp4.graphics.beginFill("#0000FF").drawRect(this.snapshot.image.width - shape_size.w, 0, shape_size.w, shape_size.h);
 
 			this.setShapeListeners({
 				q4: shp1,
