@@ -33,6 +33,7 @@
 			this.btnPrint = document.querySelector('.btn-print');
 
 			this.snapshot = null;
+			this.shape_size = { w: 10, h: 10 };
 
 		},
 
@@ -96,7 +97,15 @@
 
 						event.target.addEventListener('pressmove', function (event) {
 
-							console.log('key', key);
+							var params = {
+								'key': key,
+								'x': event.stageX - offset.x,
+								'y': event.stageY - offset.y
+							};
+
+							if (context.calcScalePercentage.call(context, params) === false) {
+								return false;
+							}
 
 							if (key === 'q4') {
 
@@ -105,13 +114,6 @@
 
 								obj['q3'].x = Math.abs(event.stageX - offset.x);
 								obj['q3'].y = Math.abs(event.stageY - offset.y) * -1;
-								/*
-								obj['q2'].x = Math.abs(event.stageX - offset.x) * -1;
-								obj['q2'].y = Math.abs(event.stageY - offset.y);
-
-								obj['q1'].x = Math.abs(event.stageX - offset.x) * -1;
-								obj['q1'].y = Math.abs(event.stageY - offset.y) * -1;
-								*/
 
 								obj['q2'].x = Math.abs(event.stageX - offset.x) * -1;
 								obj['q2'].y = Math.abs(event.stageY - offset.y) * -1;
@@ -214,18 +216,17 @@
 
 		placeResizeHandlers: function () {
 
-			var shape_size = { w: 10, h: 10 },
-				shp1 = new createjs.Shape(), // q4
+			var shp1 = new createjs.Shape(), // q4
 				shp2 = new createjs.Shape(), // q3
 				shp3 = new createjs.Shape(), // q1
 				shp4 = new createjs.Shape(); // q2
 
-			shp1.graphics.beginFill("#FFCC00").drawRect(0, 0, shape_size.w, shape_size.h);
-			shp2.graphics.beginFill("#FF0000").drawRect(0, this.snapshot.image.height - shape_size.h, shape_size.w, shape_size.h);
+			shp1.graphics.beginFill("#FFCC00").drawRect(0, 0, this.shape_size.w, this.shape_size.h);
+			shp2.graphics.beginFill("#FF0000").drawRect(0, this.snapshot.image.height - this.shape_size.h, this.shape_size.w, this.shape_size.h);
 			//shp3.graphics.beginFill("#00FF00").drawRect(this.snapshot.image.width - shape_size.w, 0, shape_size.w, shape_size.h);
 			//shp4.graphics.beginFill("#0000FF").drawRect(this.snapshot.image.width - shape_size.w, this.snapshot.image.height - shape_size.h, shape_size.w, shape_size.h);
-			shp3.graphics.beginFill("#00FF00").drawRect(this.snapshot.image.width - shape_size.w, this.snapshot.image.height - shape_size.h, shape_size.w, shape_size.h);
-			shp4.graphics.beginFill("#0000FF").drawRect(this.snapshot.image.width - shape_size.w, 0, shape_size.w, shape_size.h);
+			shp3.graphics.beginFill("#00FF00").drawRect(this.snapshot.image.width - this.shape_size.w, this.snapshot.image.height - this.shape_size.h, this.shape_size.w, this.shape_size.h);
+			shp4.graphics.beginFill("#0000FF").drawRect(this.snapshot.image.width - this.shape_size.w, 0, this.shape_size.w, this.shape_size.h);
 
 			this.setShapeListeners({
 				q4: shp1,
@@ -245,6 +246,18 @@
 			this.el_my_result.innerHTML = "<h1>image result:</h1><img src='" + this.stage.canvas.toDataURL("image/png") + "' alt='from canvas'/>";
 
 		},
+
+		calcScalePercentage: function (obj) {
+
+			var cW = (this.snapshot.image.width / 2) - this.shape_size.w,
+				cH = (this.snapshot.image.height / 2) - this.shape_size.h;
+
+			// boundaries
+			if (Math.abs(obj.y) >= cH || Math.abs(obj.x) >= cW) {
+				return false;
+			}
+
+		}
 
 	};
 
