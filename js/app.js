@@ -128,7 +128,31 @@
 
 							} else if (key === 'q2') {
 
+								obj['q4'].x = Math.abs(event.stageX - offset.x);
+								obj['q4'].y = event.stageY - offset.y;
+
+								obj['q3'].x = Math.abs(event.stageX - offset.x);
+								obj['q3'].y = Math.abs(event.stageY - offset.y) * -1;
+
+								obj['q2'].x = Math.abs(event.stageX - offset.x) * -1;
+								obj['q2'].y = Math.abs(event.stageY - offset.y);
+
+								obj['q1'].x = Math.abs(event.stageX - offset.x) * -1;
+								obj['q1'].y = Math.abs(event.stageY - offset.y) * -1;
+
 							} else if (key === 'q1') {
+
+								obj['q4'].x = Math.abs(event.stageX - offset.x);
+								obj['q4'].y = Math.abs(event.stageY - offset.y);
+
+								obj['q3'].x = Math.abs(event.stageX - offset.x);
+								obj['q3'].y = Math.abs(event.stageY - offset.y) * -1;
+
+								obj['q2'].x = Math.abs(event.stageX - offset.x) * -1;
+								obj['q2'].y = Math.abs(event.stageY - offset.y);
+
+								obj['q1'].x = Math.abs(event.stageX - offset.x) * -1;
+								obj['q1'].y = Math.abs(event.stageY - offset.y) * -1;
 
 							}
 
