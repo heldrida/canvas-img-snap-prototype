@@ -48,6 +48,8 @@
 					this.placeMask.call(this);
 					this.placeResizeHandlers.call(this);
 
+					this.stage.update();
+
 				}.bind(this));
 
 			}.bind(this));
@@ -67,6 +69,8 @@
 					this.handler_container.x = this.container.x;
 					this.handler_container.y = this.container.y;
 
+					this.stage.update();
+
 				}.bind(this));
 
 			}.bind(this));
@@ -77,29 +81,66 @@
 
 		},
 
-		setShapeListeners: function (arr) {
+		setShapeListeners: function (obj) {
 
-			arr[0].addEventListener('mousedown', function (event) {
+			for (var key in obj) {
 
-				var offset = new createjs.Point();
+				(function (context, key) {
 
-				offset.x = this.stage.mouseX - event.target.x;
-				offset.y = this.stage.mouseX - event.target.x;
+					obj[key].addEventListener('mousedown', function (event) {
 
-				event.target.addEventListener('pressmove', function (event) {
+						var offset = new createjs.Point();
 
-					arr[0].x = event.stageX - offset.x;
-					arr[0].y = event.stageY - offset.y;
+						offset.x = context.stage.mouseX - event.target.x;
+						offset.y = context.stage.mouseY - event.target.y;
 
-					// arr[1].x = Math.abs(event.stageX - offset.x) * -1;
-					// arr[1].y = Math.abs(event.stageY - offset.y) * -1;
+						event.target.addEventListener('pressmove', function (event) {
 
-					console.log('arr[0].x: ', arr[0].x);
-					console.log('arr[0].y: ', arr[0].y);
+							console.log('key', key);
 
-				}.bind(this));
+							if (key === 'q4') {
 
-			}.bind(this));
+								obj['q4'].x = event.stageX - offset.x;
+								obj['q4'].y = event.stageY - offset.y;
+
+								obj['q3'].x = Math.abs(event.stageX - offset.x);
+								obj['q3'].y = Math.abs(event.stageY - offset.y) * -1;
+
+								obj['q2'].x = Math.abs(event.stageX - offset.x) * -1;
+								obj['q2'].y = Math.abs(event.stageY - offset.y);
+
+								obj['q1'].x = Math.abs(event.stageX - offset.x) * -1;
+								obj['q1'].y = Math.abs(event.stageY - offset.y) * -1;
+
+							} else if (key === 'q3') {
+
+								obj['q4'].x = Math.abs(event.stageX - offset.x);
+								obj['q4'].y = Math.abs(event.stageY - offset.y);
+
+								obj['q3'].x = event.stageX - offset.x;
+								obj['q3'].y = event.stageY - offset.y;
+
+								obj['q2'].x = Math.abs(event.stageX - offset.x) * -1;
+								obj['q2'].y = Math.abs(event.stageY - offset.y);
+
+								obj['q1'].x = Math.abs(event.stageX - offset.x) * -1;
+								obj['q1'].y = Math.abs(event.stageY - offset.y) * -1;
+
+							} else if (key === 'q2') {
+
+							} else if (key === 'q1') {
+
+							}
+
+							context.stage.update();
+
+						}.bind(context));
+
+					}.bind(context));
+
+				}(this, key));
+
+			}
 
 		},
 
@@ -153,7 +194,12 @@
 			shp3.graphics.beginFill("#00FF00").drawRect(this.snapshot.image.width - shape_size.w, 0, shape_size.w, shape_size.h);
 			shp4.graphics.beginFill("#0000FF").drawRect(this.snapshot.image.width - shape_size.w, this.snapshot.image.height - shape_size.h, shape_size.w, shape_size.h);
 
-			this.setShapeListeners([shp1, shp2, shp3, shp4]);
+			this.setShapeListeners({
+				q4: shp1,
+				q3: shp2,
+				q2: shp3,
+				q1: shp4
+			});
 
 			this.handler_container.addChild(shp1, shp2, shp3, shp4);
 

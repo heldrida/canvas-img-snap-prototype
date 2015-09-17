@@ -30,3 +30,5 @@
 		http://jsfiddle.net/lannymcnie/jKuyy/
 
 		http://weworkweplay.com/play/saving-html5-canvas-as-image/
+
+		http://tympanus.net/codrops/2014/10/30/resizing-cropping-images-canvas/
