@@ -53,8 +53,8 @@
 				Webcam.snap( function (data_uri) {
 
 					this.placeImageToCanvas.call(this, data_uri);
-					this.placeMask.call(this);
-					this.placeResizeHandlers.call(this);
+
+					this.placeMask.call(this, this.placeResizeHandlers);
 
 					this.stage.update();
 
@@ -222,20 +222,11 @@
 
 		},
 
-		placeMask: function () {
+		placeMask: function (callback) {
 
 			this.maskImage = new createjs.Bitmap('img/mask.png');
 
-			this.maskImage.scaleX = parseInt(this.myCanvas.style.width) / this.maskImage.image.width;
-			this.maskImage.scaleY = parseInt(this.myCanvas.style.height) / this.maskImage.image.height;
-
-			this.stage.addChild(this.maskImage);
-
-			// todo: image needs to be the size of canvas
-			// the following methods solves the issue
-			// but the timeout makes the handlers go under the mask
-
-			/*
+			// wrap on a timeout, to allow getting the size of the img el
 			setTimeout(function () {
 
 				this.maskImage.scaleX = parseInt(this.myCanvas.style.width) / this.maskImage.image.width;
@@ -243,8 +234,14 @@
 
 				this.stage.addChild(this.maskImage);
 
+				if (typeof callback === "function") {
+
+					callback.call(this);
+
+				}
+
 			}.bind(this), 0);
-			*/
+
 		},
 
 		placeResizeHandlers: function () {
