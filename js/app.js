@@ -40,7 +40,7 @@
 
 			this.snapshot = null;
 			this.shape_size = { w: 10, h: 10 };
-			this.maskImage = new createjs.Bitmap('img/mask.png');
+			this.maskImage;
 
 		},
 
@@ -224,8 +224,27 @@
 
 		placeMask: function () {
 
+			this.maskImage = new createjs.Bitmap('img/mask.png');
+
+			this.maskImage.scaleX = parseInt(this.myCanvas.style.width) / this.maskImage.image.width;
+			this.maskImage.scaleY = parseInt(this.myCanvas.style.height) / this.maskImage.image.height;
+
 			this.stage.addChild(this.maskImage);
 
+			// todo: image needs to be the size of canvas
+			// the following methods solves the issue
+			// but the timeout makes the handlers go under the mask
+
+			/*
+			setTimeout(function () {
+
+				this.maskImage.scaleX = parseInt(this.myCanvas.style.width) / this.maskImage.image.width;
+				this.maskImage.scaleY = parseInt(this.myCanvas.style.height) / this.maskImage.image.height;
+
+				this.stage.addChild(this.maskImage);
+
+			}.bind(this), 0);
+			*/
 		},
 
 		placeResizeHandlers: function () {
