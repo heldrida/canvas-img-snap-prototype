@@ -20,6 +20,7 @@
 			this.stage = new createjs.Stage('myCanvas');
 			this.stage.canvas.width = 320;
 			this.stage.canvas.height = 240;
+			this.ratio = this.stage.canvas.width / this.stage.canvas.height;
 			createjs.Touch.enable(this.stage);
 
 			this.el_my_result = document.getElementById('my_result');
@@ -106,7 +107,7 @@
 								params = {
 									'key': key,
 									'x': event.stageX - offset.x,
-									'y': (event.stageY - offset.y) * ((event.stageX - offset.x) / (event.stageY - offset.y)) // event.stageY - offset.y
+									'y': (event.stageX - offset.x) / this.ratio
 								};
 
 							} else {
@@ -263,14 +264,38 @@
 
 		},
 
+
 		calcScalePercentage: function (obj) {
 
-			var cW = (this.snapshot.image.width / 2) - this.shape_size.w,
-				cH = (this.snapshot.image.height / 2) - this.shape_size.h;
+			var p1,
+				p2,
+				cW = (this.snapshot.image.width / 2)
+				cH = (this.snapshot.image.height / 2);
 
 			// boundaries
 			if (Math.abs(obj.y) >= cH || Math.abs(obj.x) >= cW) {
 				return false;
+			}
+
+			if (obj.key === 'q4') {
+
+					p1 = (Math.abs(obj.x) / cW);
+					diff1 = (1 - p1);
+
+					p2 = (Math.abs(obj.y) / cH);
+					diff2 = 1 - p2;
+
+
+				this.snapshot.setTransform(obj.x, obj.y, diff1, diff1, 0);
+
+			} else {
+
+					p = (Math.abs(obj.y) / cH);
+					diff = 1 - p;
+
+
+				this.snapshot.setTransform(obj.x, obj.y, diff, diff);
+
 			}
 
 		}
