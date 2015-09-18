@@ -286,9 +286,11 @@
 				cH = (this.snapshot.image.height / 2);
 
 			// boundaries
+			/*
 			if (Math.abs(obj.y) >= cH || Math.abs(obj.x) >= cW) {
 				return false;
 			}
+			*/
 
 			if (obj.key === 'q4' || obj.key === 'q3') {
 
@@ -329,6 +331,9 @@
 
 			this.videoStream.style.width = this.myCanvas.style.width;
 			this.videoStream.style.height = this.myCanvas.style.height;
+
+			this.maskImage.scaleX = parseInt(this.myCanvas.style.width) / this.maskImage.image.width;
+			this.maskImage.scaleY = parseInt(this.myCanvas.style.height) / this.maskImage.image.height;
 
 			this.stage.update();
 
