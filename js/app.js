@@ -17,9 +17,12 @@
 
 		setVars: function () {
 
+			this.myCanvas = document.querySelector('#myCanvas');
+			this.myCanvas.style.width = window.innerWidth + 'px';
+			this.myCanvas.style.height = window.innerWidth / (16/9) + 'px';
 			this.stage = new createjs.Stage('myCanvas');
-			this.stage.canvas.width = 320;
-			this.stage.canvas.height = 240;
+			this.stage.canvas.width = parseInt(this.myCanvas.style.width);
+			this.stage.canvas.height = parseInt(this.myCanvas.style.height);
 			this.ratio = this.stage.canvas.width / this.stage.canvas.height;
 			createjs.Touch.enable(this.stage);
 
@@ -189,7 +192,15 @@
 
 		setWebcam: function () {
 
+			console.log('setWebcam() called!');
+
+			console.log('this.stage.canvas.width', this.stage.canvas.width);
+
 			Webcam.set({
+				width: this.stage.canvas.width,
+				height: this.stage.canvas.height,
+				dest_width: this.stage.canvas.width,
+				dest_height: this.stage.canvas.height,
 				image_format: 'png'
 			});
 
@@ -267,7 +278,7 @@
 					diff = (1 - p);
 
 
-				this.snapshot.setTransform(obj.x, obj.y, diff, diff, diff * 360);
+				this.snapshot.setTransform(obj.x, obj.y, diff, diff);
 
 				// todo: calculate rotation (the formula follows)
 				// this.snapshot.setTransform(obj.x + (cW * diff), obj.y + (cH * diff), diff, diff, diff * 360, 0, 0, cW, cH);
