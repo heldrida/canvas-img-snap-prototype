@@ -254,8 +254,7 @@
 
 		calcScalePercentage: function (obj) {
 
-			var p1,
-				p2,
+			var p,
 				cW = (this.snapshot.image.width / 2)
 				cH = (this.snapshot.image.height / 2);
 
@@ -264,24 +263,19 @@
 				return false;
 			}
 
-			if (obj.key === 'q4') {
+			if (obj.key === 'q4' || obj.key === 'q3') {
 
-					p1 = (Math.abs(obj.x) / cW);
-					diff1 = (1 - p1);
+					p = (Math.abs(obj.x) / cW);
+					diff = (1 - p);
 
-					p2 = (Math.abs(obj.y) / cH);
-					diff2 = 1 - p2;
+				this.snapshot.setTransform(obj.x, obj.y, diff, diff, 0);
 
-
-				this.snapshot.setTransform(obj.x, obj.y, diff1, diff1, 0);
-
-			} else {
+			} else if (obj.key === 'q2' || obj.key === 'q1') {
 
 					p = (Math.abs(obj.y) / cH);
 					diff = 1 - p;
 
-
-				this.snapshot.setTransform(obj.x, obj.y, diff, diff);
+				this.snapshot.setTransform(obj.x * -1, obj.y * -1, diff, diff);
 
 			}
 
