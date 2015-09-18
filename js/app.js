@@ -101,24 +101,11 @@
 						event.target.addEventListener('pressmove', function (event) {
 
 							// keep ratio
-							// todo: for the moment only applied for `q4`
-							if (key === 'q4') {
-
-								params = {
-									'key': key,
-									'x': event.stageX - offset.x,
-									'y': (event.stageX - offset.x) / this.ratio
-								};
-
-							} else {
-
-								params = {
-									'key': key,
-									'x': event.stageX - offset.x,
-									'y': event.stageY - offset.y
-								};
-
-							}
+							params = {
+								'key': key,
+								'x': event.stageX - offset.x,
+								'y': (event.stageX - offset.x) / this.ratio
+							};
 
 							if (context.calcScalePercentage.call(context, params) === false) {
 								return false;
@@ -144,7 +131,7 @@
 								obj['q4'].y = Math.abs(params.y);
 
 								obj['q3'].x = params.x;
-								obj['q3'].y = params.y;
+								obj['q3'].y = Math.abs(params.y) * -1;
 
 								obj['q2'].x = Math.abs(params.x) * -1;
 								obj['q2'].y = Math.abs(params.y) * -1;
