@@ -46,7 +46,8 @@
 
 		setListeners: function () {
 
-			createjs.Ticker.addEventListener("tick", this.tickHandler.bind(this));
+			// disable to improve performance
+			//createjs.Ticker.addEventListener("tick", this.tickHandler.bind(this));
 
 			this.el_take_snapshot.addEventListener('click', function () {
 
@@ -55,8 +56,6 @@
 					this.placeImageToCanvas.call(this, data_uri);
 
 					this.placeMask.call(this, this.placeResizeHandlers);
-
-					this.stage.update();
 
 				}.bind(this));
 
@@ -220,6 +219,8 @@
 
 			this.stage.addChild(this.container);
 
+			this.stage.update();
+
 		},
 
 		placeMask: function (callback) {
@@ -234,13 +235,15 @@
 
 				this.stage.addChild(this.maskImage);
 
+				this.stage.update();
+
 				if (typeof callback === "function") {
 
 					callback.call(this);
 
 				}
 
-			}.bind(this), 0);
+			}.bind(this), 100);
 
 		},
 
@@ -326,6 +329,8 @@
 
 			this.videoStream.style.width = this.myCanvas.style.width;
 			this.videoStream.style.height = this.myCanvas.style.height;
+
+			this.stage.update();
 
 		}
 
