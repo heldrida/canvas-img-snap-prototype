@@ -34,3 +34,5 @@
 		http://tympanus.net/codrops/2014/10/30/resizing-cropping-images-canvas/
 
 		http://stackoverflow.com/questions/14813279/how-to-change-bitmap-width-and-height-in-easeljs
+
+		https://blog.toggl.com/2013/05/6-performance-tips-for-html-canvas-and-createjs/
