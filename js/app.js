@@ -227,8 +227,6 @@
 
 			shp1.graphics.beginFill("#FFCC00").drawRect(0, 0, this.shape_size.w, this.shape_size.h);
 			shp2.graphics.beginFill("#FF0000").drawRect(0, this.snapshot.image.height - this.shape_size.h, this.shape_size.w, this.shape_size.h);
-			//shp3.graphics.beginFill("#00FF00").drawRect(this.snapshot.image.width - shape_size.w, 0, shape_size.w, shape_size.h);
-			//shp4.graphics.beginFill("#0000FF").drawRect(this.snapshot.image.width - shape_size.w, this.snapshot.image.height - shape_size.h, shape_size.w, shape_size.h);
 			shp3.graphics.beginFill("#00FF00").drawRect(this.snapshot.image.width - this.shape_size.w, this.snapshot.image.height - this.shape_size.h, this.shape_size.w, this.shape_size.h);
 			shp4.graphics.beginFill("#0000FF").drawRect(this.snapshot.image.width - this.shape_size.w, 0, this.shape_size.w, this.shape_size.h);
 
