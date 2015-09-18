@@ -20,6 +20,8 @@
 			this.myCanvas = document.querySelector('#myCanvas');
 			this.myCanvas.style.width = window.innerWidth + 'px';
 			this.myCanvas.style.height = window.innerWidth / (16/9) + 'px';
+			this.myCamera = document.querySelector('#my_camera');
+			this.videoStream = this.myCamera.querySelector('video');
 			this.stage = new createjs.Stage('myCanvas');
 			this.stage.canvas.width = parseInt(this.myCanvas.style.width);
 			this.stage.canvas.height = parseInt(this.myCanvas.style.height);
@@ -38,6 +40,7 @@
 
 			this.snapshot = null;
 			this.shape_size = { w: 10, h: 10 };
+			this.maskImage = new createjs.Bitmap('img/mask.png');
 
 		},
 
@@ -83,6 +86,8 @@
 			this.btnPrint.addEventListener('click', function (e) {
 				this.print();
 			}.bind(this));
+
+			window.addEventListener('resize', this.winResizeHandler.bind(this));
 
 		},
 
@@ -192,10 +197,6 @@
 
 		setWebcam: function () {
 
-			console.log('setWebcam() called!');
-
-			console.log('this.stage.canvas.width', this.stage.canvas.width);
-
 			Webcam.set({
 				width: this.stage.canvas.width,
 				height: this.stage.canvas.height,
@@ -204,7 +205,7 @@
 				image_format: 'png'
 			});
 
-			Webcam.attach('#my_camera');
+			Webcam.attach(this.myCamera);
 
 		},
 
@@ -223,9 +224,7 @@
 
 		placeMask: function () {
 
-			var img = new createjs.Bitmap('img/mask.png');
-			this.stage.addChild(img);
-			//this.stage.setChildIndex(img, this.stage.getNumChildren() + 1);
+			this.stage.addChild(this.maskImage);
 
 		},
 
@@ -291,6 +290,26 @@
 				this.snapshot.setTransform(obj.x * -1, obj.y * -1, diff, diff);
 
 			}
+
+		},
+
+		winResizeHandler: function () {
+
+			this.myCanvas.style.width = window.innerWidth + 'px';
+			this.myCanvas.style.height = window.innerWidth / (16/9) + 'px';
+			this.stage.canvas.width = parseInt(this.myCanvas.style.width);
+			this.stage.canvas.height = parseInt(this.myCanvas.style.height);
+			this.ratio = this.stage.canvas.width / this.stage.canvas.height;
+
+			this.myCamera.style.width = this.myCanvas.style.width;
+			this.myCamera.style.height = this.myCanvas.style.height;
+
+			if (!this.videoStream) {
+				this.videoStream = this.myCamera.querySelector('video');
+			}
+
+			this.videoStream.style.width = this.myCanvas.style.width;
+			this.videoStream.style.height = this.myCanvas.style.height;
 
 		}
 
