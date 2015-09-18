@@ -113,59 +113,59 @@
 
 							if (key === 'q4') {
 
-								obj['q4'].x = params.x;
-								obj['q4'].y = params.y;
+								obj.q4.x = params.x;
+								obj.q4.y = params.y;
 
-								obj['q3'].x = Math.abs(params.x);
-								obj['q3'].y = Math.abs(params.y) * -1;
+								obj.q3.x = Math.abs(params.x);
+								obj.q3.y = Math.abs(params.y) * -1;
 
-								obj['q2'].x = Math.abs(params.x) * -1;
-								obj['q2'].y = Math.abs(params.y) * -1;
+								obj.q2.x = Math.abs(params.x) * -1;
+								obj.q2.y = Math.abs(params.y) * -1;
 
-								obj['q1'].x = Math.abs(params.x) * -1;
-								obj['q1'].y = Math.abs(params.y);
+								obj.q1.x = Math.abs(params.x) * -1;
+								obj.q1.y = Math.abs(params.y);
 
 							} else if (key === 'q3') {
 
-								obj['q4'].x = Math.abs(params.x);
-								obj['q4'].y = Math.abs(params.y);
+								obj.q4.x = Math.abs(params.x);
+								obj.q4.y = Math.abs(params.y);
 
-								obj['q3'].x = params.x;
-								obj['q3'].y = Math.abs(params.y) * -1;
+								obj.q3.x = params.x;
+								obj.q3.y = Math.abs(params.y) * -1;
 
-								obj['q2'].x = Math.abs(params.x) * -1;
-								obj['q2'].y = Math.abs(params.y) * -1;
+								obj.q2.x = Math.abs(params.x) * -1;
+								obj.q2.y = Math.abs(params.y) * -1;
 
-								obj['q1'].x = Math.abs(params.x) * -1;
-								obj['q1'].y = Math.abs(params.y);
+								obj.q1.x = Math.abs(params.x) * -1;
+								obj.q1.y = Math.abs(params.y);
 
 							} else if (key === 'q2') {
 
-								obj['q4'].x = Math.abs(params.x);
-								obj['q4'].y = Math.abs(params.y);
+								obj.q4.x = Math.abs(params.x);
+								obj.q4.y = Math.abs(params.y);
 
-								obj['q3'].x = Math.abs(params.x);
-								obj['q3'].y = Math.abs(params.y) * -1;
+								obj.q3.x = Math.abs(params.x);
+								obj.q3.y = Math.abs(params.y) * -1;
 
-								obj['q2'].x = params.x;
-								obj['q2'].y = params.y;
+								obj.q2.x = params.x;
+								obj.q2.y = params.y;
 
-								obj['q1'].x = Math.abs(params.x) * -1;
-								obj['q1'].y = Math.abs(params.y);
+								obj.q1.x = Math.abs(params.x) * -1;
+								obj.q1.y = Math.abs(params.y);
 
 							} else if (key === 'q1') {
 
-								obj['q4'].x = Math.abs(params.x);
-								obj['q4'].y = Math.abs(params.y);
+								obj.q4.x = Math.abs(params.x);
+								obj.q4.y = Math.abs(params.y);
 
-								obj['q3'].x = Math.abs(params.x);
-								obj['q3'].y = Math.abs(params.y) * -1;
+								obj.q3.x = Math.abs(params.x);
+								obj.q3.y = Math.abs(params.y) * -1;
 
-								obj['q2'].x = Math.abs(params.x) * -1;
-								obj['q2'].y = Math.abs(params.y) * -1;
+								obj.q2.x = Math.abs(params.x) * -1;
+								obj.q2.y = Math.abs(params.y) * -1;
 
-								obj['q1'].x = Math.abs(params.x) * -1;
-								obj['q1'].y = Math.abs(params.y);
+								obj.q1.x = Math.abs(params.x) * -1;
+								obj.q1.y = Math.abs(params.y);
 
 							}
 
@@ -268,7 +268,11 @@
 					p = (Math.abs(obj.x) / cW);
 					diff = (1 - p);
 
-				this.snapshot.setTransform(obj.x, obj.y, diff, diff, 0);
+
+				this.snapshot.setTransform(obj.x, obj.y, diff, diff, diff * 360);
+
+				// todo: calculate rotation (the formula follows)
+				// this.snapshot.setTransform(obj.x + (cW * diff), obj.y + (cH * diff), diff, diff, diff * 360, 0, 0, cW, cH);
 
 			} else if (obj.key === 'q2' || obj.key === 'q1') {
 
