@@ -29,10 +29,13 @@
 	}
 
 	.cta-wrap {
-		padding: 20px;
+		padding: 80px 50px;
 		position: relative;
 		z-index: 2;
-		button {}
+
+		button {
+			margin-right: 10px;
+		}
 	}
 
 	.btn {

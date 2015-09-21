@@ -260,12 +260,22 @@
 			var shp1 = new createjs.Shape(), // q4
 				shp2 = new createjs.Shape(), // q3
 				shp3 = new createjs.Shape(), // q1
-				shp4 = new createjs.Shape(); // q2
+				shp4 = new createjs.Shape(), // q2
+				offset = 100;
 
+			/*
+			 * widthout any offset
 			shp1.graphics.beginFill("#FFFFFF").drawRect(0, 0, this.shape_size.w, this.shape_size.h);
 			shp2.graphics.beginFill("#FFFFFF").drawRect(0, this.snapshot.image.height - this.shape_size.h, this.shape_size.w, this.shape_size.h);
 			shp3.graphics.beginFill("#FFFFFF").drawRect(this.snapshot.image.width - this.shape_size.w, this.snapshot.image.height - this.shape_size.h, this.shape_size.w, this.shape_size.h);
 			shp4.graphics.beginFill("#FFFFFF").drawRect(this.snapshot.image.width - this.shape_size.w, 0, this.shape_size.w, this.shape_size.h);
+			*/
+
+			// offset value is applied, so elements are not positioned in the corners
+			shp1.graphics.beginFill("#FFFFFF").drawRect(offset, offset, this.shape_size.w, this.shape_size.h);
+			shp2.graphics.beginFill("#FFFFFF").drawRect(offset, (this.snapshot.image.height - offset) - this.shape_size.h, this.shape_size.w, this.shape_size.h);
+			shp3.graphics.beginFill("#FFFFFF").drawRect((this.snapshot.image.width - offset) - this.shape_size.w, (this.snapshot.image.height - offset) - this.shape_size.h, this.shape_size.w, this.shape_size.h);
+			shp4.graphics.beginFill("#FFFFFF").drawRect((this.snapshot.image.width - offset) - this.shape_size.w, offset, this.shape_size.w, this.shape_size.h);
 
 			this.setShapeListeners({
 				q4: shp1,
