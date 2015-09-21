@@ -34,6 +34,7 @@
 			this.handler_container = new createjs.Container();
 
 			this.dragBox = new createjs.Shape(new createjs.Graphics().beginFill("#FFFFFF").drawRect(0, 0, this.stage.canvas.width, this.stage.canvas.height))
+			this.dragBox.alpha = 0.01; // hit area needs to be at least `0.01`, but leaving almost transparent to see through
 			this.stage.addChild(this.dragBox);
 
 			this.btnPrint = document.querySelector('.btn-print');
@@ -293,21 +294,32 @@
 			var img = this.stage.canvas.toDataURL("image/jpeg");
 
 			newWindow.document.write('<img src="' + img + '"/>');
-			*/
 
 			var link = document.createElement('a');
 
-			link.style.display = 'none';
-			link.href = this.stage.canvas.toDataURL("image/jpeg");
-			link.download = 'my-image-download.jpg';
-
-			document.body.appendChild(link);
+			//link.style.display = 'none';
+			link.className = 'image_download';
+			link.text = 'Download image';
+			link.href = this.stage.canvas.toDataURL("image/png");
+			link.download
+			document.querySelector('.cta-wrap').appendChild(link);
 
 			link.click();
 
 			setTimeout(function () {
 				link.parentNode.removeChild(link);
-			}, 10);
+			}, 200);
+			*/
+
+
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', 'process_image.php', true);
+			xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			xhr.onload = function () {
+			    // do something to response
+			    console.log(this.responseText);
+			};
+			xhr.send('image=' + this.stage.canvas.toDataURL("image/png"));
 
 		},
 

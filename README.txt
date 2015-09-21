@@ -40,3 +40,9 @@
 		// saving html 5 canvas image
 		http://jsfiddle.net/AbdiasSoftware/7PRNN/
 		https://github.com/eligrey/FileSaver.js
+
+		http://stackoverflow.com/questions/17596368/are-canvas-todataurl-compatible-with-phps-base64-decode
+
+		http://stackoverflow.com/questions/13198131/how-to-save-a-html5-canvas-as-image-on-a-server
+
+		http://sookocheff.com/post/javascript/saving-canvas-data-to-an-image-file-with-javascript-and-php/
