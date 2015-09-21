@@ -45,6 +45,8 @@
 
 			this.btnDownload = document.querySelector('.btn-download');
 
+			this.shapes;
+
 		},
 
 		setListeners: function () {
@@ -92,7 +94,16 @@
 			window.addEventListener('resize', this.winResizeHandler.bind(this));
 
 			this.btnDownload.addEventListener('click', function () {
+				this.hideHandlers();
 				this.downloadImg();
+			}.bind(this));
+
+			window.addEventListener('showHandlers', function () {
+
+				this.handler_container.alpha = 1;
+
+				this.stage.update();
+
 			}.bind(this));
 
 		},
@@ -263,6 +274,9 @@
 				shp4 = new createjs.Shape(), // q2
 				offset = 100;
 
+			// to reference elsewhere
+			this.shapes = [shp1, shp2, shp3, shp4];
+
 			/*
 			 * widthout any offset
 			shp1.graphics.beginFill("#FFFFFF").drawRect(0, 0, this.shape_size.w, this.shape_size.h);
@@ -321,7 +335,6 @@
 			}, 200);
 			*/
 
-
 			var xhr = new XMLHttpRequest();
 			xhr.open('POST', 'process_image.php', true);
 			xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -330,6 +343,12 @@
 			    // do something to response
 			    console.log(this.responseText);
 				window.location.href = "download.php?file=" + this.responseText;
+
+				// trigger `show handlers`
+				var event = document.createEvent('Event');
+				event.initEvent('showHandlers', true, true);
+				window.dispatchEvent(event);
+
 			};
 
 			xhr.send('image=' + this.stage.canvas.toDataURL("image/png"));
@@ -390,6 +409,17 @@
 			this.maskImage.scaleY = parseInt(this.myCanvas.style.height) / this.maskImage.image.height;
 
 			this.stage.update();
+
+		},
+
+		hideHandlers: function () {
+
+			this.handler_container.alpha = 0;
+
+			this.stage.update();
+
+			// todo: put it back after `download`
+			// see event listeners, as this is triggered from the download callback
 
 		}
 
