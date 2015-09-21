@@ -3,7 +3,7 @@
 	// make sure the image-data exists and is not empty
 	if ( isset($_POST["image"]) && !empty($_POST["image"]) ) {
 
-		$path = 'results';
+		$path = dirname(__FILE__) . '/results';
 		$data = $_POST['image'];
 		$file = md5(uniqid()) . '.png';
 

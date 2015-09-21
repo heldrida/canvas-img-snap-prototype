@@ -315,10 +315,13 @@
 			var xhr = new XMLHttpRequest();
 			xhr.open('POST', 'process_image.php', true);
 			xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
 			xhr.onload = function () {
 			    // do something to response
 			    console.log(this.responseText);
+				window.location.href = "download.php?file=" + this.responseText;
 			};
+
 			xhr.send('image=' + this.stage.canvas.toDataURL("image/png"));
 
 		},
