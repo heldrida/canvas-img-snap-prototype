@@ -225,7 +225,7 @@
 
 		placeMask: function (callback) {
 
-			this.maskImage = new createjs.Bitmap('img/mask.png');
+			this.maskImage = new createjs.Bitmap('img/mask_v2.png');
 
 			// wrap on a timeout, to allow getting the size of the img el
 			setTimeout(function () {
@@ -254,10 +254,10 @@
 				shp3 = new createjs.Shape(), // q1
 				shp4 = new createjs.Shape(); // q2
 
-			shp1.graphics.beginFill("#FFCC00").drawRect(0, 0, this.shape_size.w, this.shape_size.h);
-			shp2.graphics.beginFill("#FF0000").drawRect(0, this.snapshot.image.height - this.shape_size.h, this.shape_size.w, this.shape_size.h);
-			shp3.graphics.beginFill("#00FF00").drawRect(this.snapshot.image.width - this.shape_size.w, this.snapshot.image.height - this.shape_size.h, this.shape_size.w, this.shape_size.h);
-			shp4.graphics.beginFill("#0000FF").drawRect(this.snapshot.image.width - this.shape_size.w, 0, this.shape_size.w, this.shape_size.h);
+			shp1.graphics.beginFill("#FFFFFF").drawRect(0, 0, this.shape_size.w, this.shape_size.h);
+			shp2.graphics.beginFill("#FFFFFF").drawRect(0, this.snapshot.image.height - this.shape_size.h, this.shape_size.w, this.shape_size.h);
+			shp3.graphics.beginFill("#FFFFFF").drawRect(this.snapshot.image.width - this.shape_size.w, this.snapshot.image.height - this.shape_size.h, this.shape_size.w, this.shape_size.h);
+			shp4.graphics.beginFill("#FFFFFF").drawRect(this.snapshot.image.width - this.shape_size.w, 0, this.shape_size.w, this.shape_size.h);
 
 			this.setShapeListeners({
 				q4: shp1,
@@ -286,16 +286,16 @@
 				cH = (this.snapshot.image.height / 2);
 
 			// boundaries
-			/*
 			if (Math.abs(obj.y) >= cH || Math.abs(obj.x) >= cW) {
 				return false;
 			}
-			*/
 
 			if (obj.key === 'q4' || obj.key === 'q3') {
 
-					p = (Math.abs(obj.x) / cW);
+					p = (obj.x / cW);
 					diff = (1 - p);
+
+					console.log('p', p);
 
 
 				this.snapshot.setTransform(obj.x, obj.y, diff, diff);
