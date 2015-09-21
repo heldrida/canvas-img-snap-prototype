@@ -36,3 +36,7 @@
 		http://stackoverflow.com/questions/14813279/how-to-change-bitmap-width-and-height-in-easeljs
 
 		https://blog.toggl.com/2013/05/6-performance-tips-for-html-canvas-and-createjs/
+
+		// saving html 5 canvas image
+		http://jsfiddle.net/AbdiasSoftware/7PRNN/
+		https://github.com/eligrey/FileSaver.js

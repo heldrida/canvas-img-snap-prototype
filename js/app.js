@@ -42,6 +42,8 @@
 			this.shape_size = { w: 10, h: 10 };
 			this.maskImage;
 
+			this.btnDownload = document.querySelector('.btn-download');
+
 		},
 
 		setListeners: function () {
@@ -87,6 +89,10 @@
 			}.bind(this));
 
 			window.addEventListener('resize', this.winResizeHandler.bind(this));
+
+			this.btnDownload.addEventListener('click', function () {
+				this.downloadImg();
+			}.bind(this));
 
 		},
 
@@ -279,6 +285,31 @@
 
 		},
 
+		downloadImg: function () {
+
+			/* FOR IE etc
+		    var newWindow = window.open("","Test","width=300,height=300,scrollbars=1,resizable=1")
+
+			var img = this.stage.canvas.toDataURL("image/jpeg");
+
+			newWindow.document.write('<img src="' + img + '"/>');
+			*/
+
+			var link = document.createElement('a');
+
+			link.style.display = 'none';
+			link.href = this.stage.canvas.toDataURL("image/jpeg");
+			link.download = 'my-image-download.jpg';
+
+			document.body.appendChild(link);
+
+			link.click();
+
+			setTimeout(function () {
+				link.parentNode.removeChild(link);
+			}, 10);
+
+		},
 
 		calcScalePercentage: function (obj) {
 
