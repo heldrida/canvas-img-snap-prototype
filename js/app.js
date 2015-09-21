@@ -425,6 +425,11 @@
 
 	};
 
-	var canvasImageSnapper = new CanvasImageSnapper();
+	var arrImgList = ['img/mask_v2.png'];
+
+	imagesLoaded(arrImgList, function( instance ) {
+		console.log('all images loaded');
+		var canvasImageSnapper = new CanvasImageSnapper();
+	});
 
 })(window);
