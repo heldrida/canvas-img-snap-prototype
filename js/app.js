@@ -22,6 +22,9 @@
 			this.myCanvas = document.querySelector('#myCanvas');
 			this.myCanvas.style.width = window.innerWidth + 'px';
 			this.myCanvas.style.height = window.innerWidth / (16/9) + 'px';
+			this.moduleContainer = document.querySelector('.p-canvas-webcam-prototype');
+			this.moduleContainer.style.width = window.innerWidth + 'px';
+			this.moduleContainer.style.height = window.innerWidth / (16/9) + 'px';
 			this.myCamera = document.querySelector('#my_camera');
 			this.videoStream = this.myCamera.querySelector('video');
 			this.stage = new createjs.Stage('myCanvas');
@@ -228,7 +231,8 @@
 				height: this.webCamMaxWidth / this.webCamSizeRatio,
 				dest_width: this.webCamMaxWidth,
 				dest_height: this.webCamMaxWidth / this.webCamSizeRatio,
-				image_format: 'png'
+				image_format: 'png',
+				flip_horiz: true
 			});
 
 			Webcam.attach(this.myCamera);
@@ -404,6 +408,9 @@
 			this.stage.canvas.width = parseInt(this.myCanvas.style.width);
 			this.stage.canvas.height = parseInt(this.myCanvas.style.height);
 			this.ratio = this.stage.canvas.width / this.stage.canvas.height;
+
+			this.moduleContainer.style.width = window.innerWidth + 'px';
+			this.moduleContainer.style.height = window.innerWidth / (16/9) + 'px';
 
 			this.camFitToScale();
 
