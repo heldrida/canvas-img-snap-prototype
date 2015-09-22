@@ -483,7 +483,7 @@
 
 			Webcam.snap( function (data_uri) {
 
-				this.clearSnapshotsOnStage();
+				this.clearSnapshotsOnStage.call(this);
 
 				this.placeImageToCanvas.call(this, data_uri);
 
@@ -500,6 +500,8 @@
 				this.stage.removeChild(this.snapshots[i]);
 
 			}
+
+			this.handler_container.removeAllChildren();
 
 		}
 
