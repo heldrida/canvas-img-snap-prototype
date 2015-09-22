@@ -9,7 +9,7 @@
 	CanvasImageSnapper.prototype = {
 
 		init: function () {
-			console.log('init() called');
+
 			this.setVars();
 			this.setListeners();
 			this.setWebcam();
@@ -224,8 +224,6 @@
 
 		setWebcam: function () {
 
-			console.log('setWebcam() called');
-
 			Webcam.set({
 				width: this.webCamMaxWidth,
 				height: this.webCamMaxWidth / this.webCamSizeRatio,
@@ -355,7 +353,6 @@
 
 			xhr.onload = function () {
 			    // do something to response
-			    console.log(this.responseText);
 				window.location.href = "download.php?file=" + this.responseText;
 
 				// trigger `show handlers`
@@ -436,10 +433,6 @@
 
 			var scaleFactor = parseInt(this.myCanvas.style.width) / this.webCamMaxWidth;
 
-			console.log('scaleFactor', scaleFactor);
-			console.log('this.myCanvas.style.width', this.myCanvas.style.width);
-			console.log('this.webCamMaxWidth', this.webCamMaxWidth);
-
 			this.myCamera.style.transform = 'scale(' + scaleFactor + ')';
 			this.myCamera.style['-o-transform'] = 'scale(' + scaleFactor + ')';
 			this.myCamera.style['-webkit-transform'] = 'scale(' + scaleFactor + ')';
@@ -461,7 +454,6 @@
 	var arrImgList = ['img/mask_v2.png'];
 
 	imagesLoaded(arrImgList, function( instance ) {
-		console.log('all images loaded');
 		var canvasImageSnapper = new CanvasImageSnapper();
 		window.canvasImageSnapper = canvasImageSnapper;
 	});
