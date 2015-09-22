@@ -1,13 +1,15 @@
 (function(window, undefined) {
 
 	function CanvasImageSnapper() {
+
 		this.init();
+
 	}
 
 	CanvasImageSnapper.prototype = {
 
 		init: function () {
-
+			console.log('init() called');
 			this.setVars();
 			this.setListeners();
 			this.setWebcam();
@@ -46,6 +48,10 @@
 			this.btnDownload = document.querySelector('.btn-download');
 
 			this.shapes;
+
+			this.webCamMaxWidth = 1280;
+			this.webCamMaxHeight = 720;
+			this.webCamSizeRatio = 16 / 9;
 
 		},
 
@@ -215,15 +221,19 @@
 
 		setWebcam: function () {
 
+			console.log('setWebcam() called');
+
 			Webcam.set({
-				width: this.stage.canvas.width,
-				height: this.stage.canvas.height,
-				dest_width: this.stage.canvas.width,
-				dest_height: this.stage.canvas.height,
+				width: this.webCamMaxWidth,
+				height: this.webCamMaxWidth / this.webCamSizeRatio,
+				dest_width: this.webCamMaxWidth,
+				dest_height: this.webCamMaxWidth / this.webCamSizeRatio,
 				image_format: 'png'
 			});
 
 			Webcam.attach(this.myCamera);
+
+			this.camFitToScale();
 
 		},
 
@@ -395,15 +405,7 @@
 			this.stage.canvas.height = parseInt(this.myCanvas.style.height);
 			this.ratio = this.stage.canvas.width / this.stage.canvas.height;
 
-			this.myCamera.style.width = this.myCanvas.style.width;
-			this.myCamera.style.height = this.myCanvas.style.height;
-
-			if (!this.videoStream) {
-				this.videoStream = this.myCamera.querySelector('video');
-			}
-
-			this.videoStream.style.width = this.myCanvas.style.width;
-			this.videoStream.style.height = this.myCanvas.style.height;
+			this.camFitToScale();
 
 			this.maskImage.scaleX = parseInt(this.myCanvas.style.width) / this.maskImage.image.width;
 			this.maskImage.scaleY = parseInt(this.myCanvas.style.height) / this.maskImage.image.height;
@@ -421,6 +423,30 @@
 			// todo: put it back after `download`
 			// see event listeners, as this is triggered from the download callback
 
+		},
+
+		camFitToScale: function () {
+
+			var scaleFactor = parseInt(this.myCanvas.style.width) / this.webCamMaxWidth;
+
+			console.log('scaleFactor', scaleFactor);
+			console.log('this.myCanvas.style.width', this.myCanvas.style.width);
+			console.log('this.webCamMaxWidth', this.webCamMaxWidth);
+
+			this.myCamera.style.transform = 'scale(' + scaleFactor + ')';
+			this.myCamera.style['-o-transform'] = 'scale(' + scaleFactor + ')';
+			this.myCamera.style['-webkit-transform'] = 'scale(' + scaleFactor + ')';
+			this.myCamera.style['-moz-transform'] = 'scale(' + scaleFactor + ')';
+
+			if (!this.videoStream) {
+				this.videoStream = this.myCamera.querySelector('video');
+			}
+
+			this.videoStream.style.transform = 'scale(' + scaleFactor + ')';
+			this.videoStream.style['-o-transform'] = 'scale(' + scaleFactor + ')';
+			this.videoStream.style['-webkit-transform'] = 'scale(' + scaleFactor + ')';
+			this.videoStream.style['-moz-transform'] = 'scale(' + scaleFactor + ')';
+
 		}
 
 	};
@@ -430,6 +456,7 @@
 	imagesLoaded(arrImgList, function( instance ) {
 		console.log('all images loaded');
 		var canvasImageSnapper = new CanvasImageSnapper();
+		window.canvasImageSnapper = canvasImageSnapper;
 	});
 
 })(window);
