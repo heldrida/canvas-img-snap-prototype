@@ -255,6 +255,11 @@
 
 			this.snapshot = new createjs.Bitmap(data_uri);
 
+			var scaleFactor = parseInt(this.myCanvas.style.width) / this.webCamMaxWidth;
+
+			this.snapshot.scaleX = scaleFactor;
+			this.snapshot.scaleY = scaleFactor;
+
 			this.container.addChild(this.snapshot);
 
 			this.stage.addChild(this.container);
@@ -289,7 +294,8 @@
 
 		placeResizeHandlers: function () {
 
-			var shp1 = new createjs.Shape(), // q4
+			var scaleFactor = parseInt(this.myCanvas.style.width) / this.webCamMaxWidth,
+				shp1 = new createjs.Shape(), // q4
 				shp2 = new createjs.Shape(), // q3
 				shp3 = new createjs.Shape(), // q1
 				shp4 = new createjs.Shape(), // q2
@@ -308,9 +314,9 @@
 
 			// offset value is applied, so elements are not positioned in the corners
 			shp1.graphics.beginFill("#FFFFFF").drawRect(offset, offset, this.shape_size.w, this.shape_size.h);
-			shp2.graphics.beginFill("#FFFFFF").drawRect(offset, (this.snapshot.image.height - offset) - this.shape_size.h, this.shape_size.w, this.shape_size.h);
-			shp3.graphics.beginFill("#FFFFFF").drawRect((this.snapshot.image.width - offset) - this.shape_size.w, (this.snapshot.image.height - offset) - this.shape_size.h, this.shape_size.w, this.shape_size.h);
-			shp4.graphics.beginFill("#FFFFFF").drawRect((this.snapshot.image.width - offset) - this.shape_size.w, offset, this.shape_size.w, this.shape_size.h);
+			shp2.graphics.beginFill("#FFFFFF").drawRect(offset, ((this.snapshot.image.height * scaleFactor) - offset) - this.shape_size.h, this.shape_size.w, this.shape_size.h);
+			shp3.graphics.beginFill("#FFFFFF").drawRect(((this.snapshot.image.width * scaleFactor) - offset) - this.shape_size.w, ((this.snapshot.image.height * scaleFactor) - offset) - this.shape_size.h, this.shape_size.w, this.shape_size.h);
+			shp4.graphics.beginFill("#FFFFFF").drawRect(((this.snapshot.image.width * scaleFactor) - offset) - this.shape_size.w, offset, this.shape_size.w, this.shape_size.h);
 
 			this.setShapeListeners({
 				q4: shp1,
@@ -377,6 +383,8 @@
 
 		calcScalePercentage: function (obj) {
 
+			var scaleFactor = parseInt(this.myCanvas.style.width) / this.webCamMaxWidth;
+
 			var p,
 				cW = (this.snapshot.image.width / 2)
 				cH = (this.snapshot.image.height / 2);
@@ -389,9 +397,9 @@
 			if (obj.key === 'q4' || obj.key === 'q3') {
 
 					p = (obj.x / cW);
-					diff = (1 - p);
+					diff = (1 - p) * scaleFactor;
 
-				this.snapshot.setTransform(obj.x, obj.y, diff, diff);
+				this.snapshot.setTransform(obj.x * scaleFactor, obj.y * scaleFactor, diff, diff);
 
 				// todo: calculate rotation (the formula follows)
 				// this.snapshot.setTransform(obj.x + (cW * diff), obj.y + (cH * diff), diff, diff, diff * 360, 0, 0, cW, cH);
@@ -399,9 +407,9 @@
 			} else if (obj.key === 'q2' || obj.key === 'q1') {
 
 				p = (obj.x / cW);
-				diff = (1 + p);
+				diff = (1 + p) * scaleFactor;
 
-				this.snapshot.setTransform(obj.x * -1, obj.y * -1, diff, diff);
+				this.snapshot.setTransform((obj.x * scaleFactor) * -1, (obj.y * scaleFactor) * -1, diff, diff);
 
 			}
 
@@ -440,6 +448,7 @@
 
 		camFitToScale: function () {
 
+			/*
 			var scaleFactor = parseInt(this.myCanvas.style.width) / this.webCamMaxWidth;
 
 			this.myCamera.style.transform = 'scale(' + scaleFactor + ')';
@@ -461,6 +470,17 @@
 			this.videoStream.style['-o-transform'] = 'scale(' + scaleFactor + ')';
 			this.videoStream.style['-webkit-transform'] = 'scale(' + scaleFactor + ')';
 			this.videoStream.style['-moz-transform'] = 'scale(' + scaleFactor + ')';
+			*/
+
+			this.myCamera.style.width = window.innerWidth + 'px';
+			this.myCamera.style.height = window.innerWidth / (16 / 9)  + 'px';
+
+			if (!this.videoStream) {
+				this.videoStream = this.myCamera.querySelector('video');
+			}
+
+			this.videoStream.style.width = window.innerWidth + 'px';
+			this.videoStream.style.height = window.innerWidth / (16 / 9)  + 'px';
 
 		}
 

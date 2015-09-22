@@ -46,3 +46,5 @@
 		http://stackoverflow.com/questions/13198131/how-to-save-a-html5-canvas-as-image-on-a-server
 
 		http://sookocheff.com/post/javascript/saving-canvas-data-to-an-image-file-with-javascript-and-php/
+
+		https://webrtchacks.com/video-constraints-2/
