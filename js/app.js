@@ -55,6 +55,8 @@
 			this.webCamMaxHeight = 720;
 			this.webCamSizeRatio = 16 / 9;
 
+			this.snaps;
+
 		},
 
 		setListeners: function () {
@@ -62,17 +64,7 @@
 			// disable to improve performance
 			createjs.Ticker.addEventListener("tick", this.tickHandler.bind(this));
 
-			this.el_take_snapshot.addEventListener('click', function () {
-
-				Webcam.snap( function (data_uri) {
-
-					this.placeImageToCanvas.call(this, data_uri);
-
-					this.placeMask.call(this, this.placeResizeHandlers);
-
-				}.bind(this));
-
-			}.bind(this));
+			this.el_take_snapshot.addEventListener('click', this.snapHandler.bind(this));
 
 			this.dragBox.addEventListener("mousedown", function (event) {
 
@@ -481,6 +473,18 @@
 
 			this.videoStream.style.width = window.innerWidth + 'px';
 			this.videoStream.style.height = window.innerWidth / (16 / 9)  + 'px';
+
+		},
+
+		snapHandler: function () {
+
+			Webcam.snap( function (data_uri) {
+
+				this.placeImageToCanvas.call(this, data_uri);
+
+				this.placeMask.call(this, this.placeResizeHandlers);
+
+			}.bind(this));
 
 		}
 
