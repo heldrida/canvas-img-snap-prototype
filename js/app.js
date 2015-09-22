@@ -12,8 +12,7 @@
 
 			this.setVars();
 			this.setListeners();
-			this.setWebcam();
-			//this.placeMask();
+			this.placeMask(this.setWebcam.bind(this));
 
 		},
 
@@ -61,7 +60,7 @@
 		setListeners: function () {
 
 			// disable to improve performance
-			//createjs.Ticker.addEventListener("tick", this.tickHandler.bind(this));
+			createjs.Ticker.addEventListener("tick", this.tickHandler.bind(this));
 
 			this.el_take_snapshot.addEventListener('click', function () {
 
@@ -115,9 +114,16 @@
 
 			}.bind(this));
 
+			/*
 			Webcam.on('live', function () {
-				console.log('on live! this.placeMask called!');
-				this.placeMask();
+				console.log('webcam! on live!');
+			}.bind(this));
+			*/
+
+			Webcam.on('load', function () {
+
+				this.camFitToScale();
+
 			}.bind(this));
 
 		},
@@ -240,8 +246,6 @@
 
 			Webcam.attach(this.myCamera);
 
-			this.camFitToScale();
-
 		},
 
 		placeImageToCanvas: function (data_uri) {
@@ -279,7 +283,7 @@
 
 				}
 
-			}.bind(this), 100);
+			}.bind(this), 0);
 
 		},
 
