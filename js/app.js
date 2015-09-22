@@ -55,7 +55,7 @@
 			this.webCamMaxHeight = 720;
 			this.webCamSizeRatio = 16 / 9;
 
-			this.snaps;
+			this.snapshots = [];
 
 		},
 
@@ -257,6 +257,9 @@
 			this.stage.addChild(this.container);
 
 			this.stage.update();
+
+			// push to collection
+			this.snapshots.push(this.snapshot);
 
 		},
 
@@ -480,11 +483,23 @@
 
 			Webcam.snap( function (data_uri) {
 
+				this.clearSnapshotsOnStage();
+
 				this.placeImageToCanvas.call(this, data_uri);
 
 				this.placeMask.call(this, this.placeResizeHandlers);
 
 			}.bind(this));
+
+		},
+
+		clearSnapshotsOnStage: function () {
+
+			for (var i = 0; i < this.snapshots.length; i++) {
+
+				this.stage.removeChild(this.snapshots[i]);
+
+			}
 
 		}
 
