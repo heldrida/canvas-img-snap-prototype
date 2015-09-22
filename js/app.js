@@ -13,7 +13,7 @@
 			this.setVars();
 			this.setListeners();
 			this.setWebcam();
-			this.placeMask();
+			//this.placeMask();
 
 		},
 
@@ -113,6 +113,11 @@
 
 				this.stage.update();
 
+			}.bind(this));
+
+			Webcam.on('live', function () {
+				console.log('on live! this.placeMask called!');
+				this.placeMask();
 			}.bind(this));
 
 		},
@@ -437,6 +442,12 @@
 			this.myCamera.style['-o-transform'] = 'scale(' + scaleFactor + ')';
 			this.myCamera.style['-webkit-transform'] = 'scale(' + scaleFactor + ')';
 			this.myCamera.style['-moz-transform'] = 'scale(' + scaleFactor + ')';
+
+			// keep mirror mode
+			this.myCamera.style.transform = 'scaleX(' + scaleFactor * -1 + ')';
+			this.myCamera.style['-o-transform'] = 'scaleX(' + scaleFactor * -1 + ')';
+			this.myCamera.style['-webkit-transform'] = 'scaleX(' + scaleFactor * -1 + ')';
+			this.myCamera.style['-moz-transform'] = 'scaleX(' + scaleFactor * -1 + ')';
 
 			if (!this.videoStream) {
 				this.videoStream = this.myCamera.querySelector('video');
