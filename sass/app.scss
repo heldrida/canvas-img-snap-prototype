@@ -2,6 +2,26 @@
 	position: relative;
 	overflow: hidden;
 
+	.btn-download,
+	.remove_snapshot {
+		display: none;
+	}
+
+	.take_snapshot {
+		display: inline-block;
+	}
+
+	&.snapshot-on-stage {
+		.btn-download,
+		.remove_snapshot {
+			display: inline-block;
+		}
+
+		.take_snapshot {
+			display: none;
+		}
+	}
+
 	.hidden {
 		display: none;
 	}

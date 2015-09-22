@@ -57,6 +57,8 @@
 
 			this.snapshots = [];
 
+			this.el_remove_snapshot = document.querySelector('.remove_snapshot');
+
 		},
 
 		setListeners: function () {
@@ -116,6 +118,10 @@
 
 				this.camFitToScale();
 
+			}.bind(this));
+
+			this.el_remove_snapshot.addEventListener('click', function () {
+				this.removeShapshotHandler.call(this);
 			}.bind(this));
 
 		},
@@ -489,6 +495,8 @@
 
 				this.placeMask.call(this, this.placeResizeHandlers);
 
+				this.moduleContainer.classList.add('snapshot-on-stage');
+
 			}.bind(this));
 
 		},
@@ -497,10 +505,18 @@
 
 			for (var i = 0; i < this.snapshots.length; i++) {
 
-				this.stage.removeChild(this.snapshots[i]);
+				this.container.removeChild(this.snapshots[i]);
 
 			}
 
+			this.handler_container.removeAllChildren();
+
+		},
+
+		removeShapshotHandler: function () {
+
+			this.moduleContainer.classList.remove('snapshot-on-stage');
+			this.container.removeAllChildren();
 			this.handler_container.removeAllChildren();
 
 		}
