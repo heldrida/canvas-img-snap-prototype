@@ -124,12 +124,6 @@
 
 			}.bind(this));
 
-			/*
-			Webcam.on('live', function () {
-				console.log('webcam! on live!');
-			}.bind(this));
-			*/
-
 			Webcam.on('load', function () {
 
 				this.camFitToScale();
