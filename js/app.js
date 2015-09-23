@@ -72,6 +72,9 @@
 				}
 			};
 
+			// mandrill api key
+			this.mandrillApiKey = 'nHH-2zTVBPBY35vglYN1jg';
+
 		},
 
 		setListeners: function () {
@@ -494,6 +497,65 @@
 			this.stage.update();
 
 			this.placeMask();
+		},
+
+		sendEmail: function (){
+
+		 	var userData = {
+		 		email: 'info@punkbit.com',
+		 		name: 'Punkbit',
+		 		subject: 'My title!',
+		 		html: '<p>Hello world</p>'
+		 	},
+
+		 	data = {
+				'key': this.mandrillApiKey,
+				'message': {
+					'from_email': 'info@punkbit.com',
+					'to': [{
+						'email': userData.email,
+						'name': userData.name,
+						'type': 'to'
+						}],
+					'subject': userData.subject,
+					'html': userData.html
+				}
+			},
+
+			url = 'https://mandrillapp.com/api/1.0/messages/send.json',
+
+			// construct an HTTP request
+			xhr = new XMLHttpRequest();
+
+			xhr.open('POST', url, true);
+
+			xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+
+			// send the collected data as JSON
+			xhr.send(JSON.stringify(data));
+
+			xhr.addEventListener("load", function (res) {
+
+				console.log('email xhr load event!');
+				console.log(res);
+
+			});
+
+			xhr.addEventListener('readystatechange', function() {
+
+				if (this.readyState == 4 && this.status == 200) {
+
+					var response = this.responseText;
+					console.log('response', response);
+
+				}
+
+			});
+
+			xhr.addEventListener("error", function (res) {
+				console.log('xhr error!');
+			});
+
 		}
 
 	};

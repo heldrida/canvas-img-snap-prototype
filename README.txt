@@ -48,3 +48,7 @@
 		http://sookocheff.com/post/javascript/saving-canvas-data-to-an-image-file-with-javascript-and-php/
 
 		https://webrtchacks.com/video-constraints-2/
+
+		http://rcmdnk.github.io/en/blog/2014/12/11/blog-javascript/
+
+		http://www.mattlunn.me.uk/blog/2011/11/handling-an-ajax-response-in-javascript-with-or-without-jquery/
