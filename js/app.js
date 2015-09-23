@@ -63,12 +63,21 @@
 
 			this.maskName = 'mask_01';
 
+			// cache
+			this.cached = {
+				images: {
+					'mask_01': new createjs.Bitmap('img/mask_01.png'),
+					'mask_02': new createjs.Bitmap('img/mask_02.png'),
+					'mask_03': new createjs.Bitmap('img/mask_03.png'),
+				}
+			};
+
 		},
 
 		setListeners: function () {
 
 			// disable to improve performance
-			createjs.Ticker.addEventListener("tick", this.tickHandler.bind(this));
+			//createjs.Ticker.addEventListener("tick", this.tickHandler.bind(this));
 
 			this.el_take_snapshot.addEventListener('click', this.snapHandler.bind(this));
 
@@ -132,7 +141,7 @@
 			for (var i = 0; i < this.galleryThemes.length; i++) {
 				this.galleryThemes[i].addEventListener('click', function () {
 					context.maskName = this.getAttribute('data-mask-name');
-					context.replaceMask.call(context, false);
+					context.placeMask.call(context, false);
 				});
 			}
 
@@ -283,7 +292,12 @@
 
 		placeMask: function (callback) {
 
-			this.maskImage = new createjs.Bitmap('img/' + this.maskName + '.png');
+			if (this.maskImage) {
+				this.stage.removeChild(this.maskImage);
+				this.stage.update();
+			}
+
+			this.maskImage = this.cached.images[this.maskName];
 
 			// wrap on a timeout, to allow getting the size of the img el
 			setTimeout(function () {
@@ -467,25 +481,19 @@
 			}
 
 			this.handler_container.removeAllChildren();
+			this.stage.update();
 
 		},
 
 		removeShapshotHandler: function () {
 
 			this.moduleContainer.classList.remove('snapshot-on-stage');
-			this.stage.removeChild(this.maskImage);
 			this.container.removeAllChildren();
 			this.handler_container.removeAllChildren();
-
-		},
-
-		replaceMask: function () {
-
-			// remove current image
 			this.stage.removeChild(this.maskImage);
+			this.stage.update();
 
-			this.placeMask(false);
-
+			this.placeMask();
 		}
 
 	};
