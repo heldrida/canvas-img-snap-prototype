@@ -52,3 +52,5 @@
 		http://rcmdnk.github.io/en/blog/2014/12/11/blog-javascript/
 
 		http://www.mattlunn.me.uk/blog/2011/11/handling-an-ajax-response-in-javascript-with-or-without-jquery/
+
+		https://mandrillapp.com/api/docs/messages.html

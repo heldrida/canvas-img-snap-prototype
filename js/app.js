@@ -495,31 +495,43 @@
 
 		sendEmail: function (){
 
-		 	var userData = {
-		 		email: 'info@punkbit.com',
-		 		name: 'Punkbit',
-		 		subject: 'My title!',
-		 		html: '<p>Hello world</p>'
-		 	},
+			// hide the handlers while taking a shot
+			this.hideHandlers();
 
-		 	data = {
-				'key': this.mandrillApiKey,
-				'message': {
-					'from_email': 'info@punkbit.com',
-					'to': [{
-						'email': userData.email,
-						'name': userData.name,
-						'type': 'to'
-						}],
-					'subject': userData.subject,
-					'html': userData.html
-				}
-			},
+			var image_attachment = this.stage.canvas.toDataURL("image/png").split('base64,')[1],
 
-			url = 'https://mandrillapp.com/api/1.0/messages/send.json',
+				userData = {
+				 		email: 'info@punkbit.com',
+				 		name: 'Punkbit',
+				 		subject: 'My title!',
+				 		html: '<p>Hello world</p>'
+			 	},
 
-			// construct an HTTP request
-			xhr = new XMLHttpRequest();
+			 	data = {
+					'key': this.mandrillApiKey,
+					'message': {
+						'from_email': 'info@punkbit.com',
+						'to': [{
+							'email': userData.email,
+							'name': userData.name,
+							'type': 'to'
+							}],
+						'subject': userData.subject,
+						'html': userData.html,
+						'attachments': [{
+							'type': 'image/jpeg',
+							'name': '9sdhjoi3nn0sdnbonZkfk3ewdsxzX.jpeg',
+							'content': image_attachment
+						}]
+					}
+				},
+
+				url = 'https://mandrillapp.com/api/1.0/messages/send.json',
+
+				// construct an HTTP request
+				xhr = new XMLHttpRequest();
+
+			console.log(data);
 
 			xhr.open('POST', url, true);
 
@@ -532,6 +544,11 @@
 
 				console.log('email xhr load event!');
 				console.log(res);
+
+				// trigger `show handlers`
+				var event = document.createEvent('Event');
+				event.initEvent('showHandlers', true, true);
+				window.dispatchEvent(event);
 
 			});
 
