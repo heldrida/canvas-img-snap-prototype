@@ -59,6 +59,10 @@
 
 			this.el_remove_snapshot = document.querySelector('.remove_snapshot');
 
+			this.galleryThemes = document.querySelectorAll('.gallery-selector ul li');
+
+			this.maskName = 'mask_01';
+
 		},
 
 		setListeners: function () {
@@ -123,6 +127,14 @@
 			this.el_remove_snapshot.addEventListener('click', function () {
 				this.removeShapshotHandler.call(this);
 			}.bind(this));
+
+			var context = this;
+			for (var i = 0; i < this.galleryThemes.length; i++) {
+				this.galleryThemes[i].addEventListener('click', function () {
+					context.maskName = this.getAttribute('data-mask-name');
+					context.replaceMask.call(context, false);
+				});
+			}
 
 		},
 
@@ -271,7 +283,7 @@
 
 		placeMask: function (callback) {
 
-			this.maskImage = new createjs.Bitmap('img/mask_002.png');
+			this.maskImage = new createjs.Bitmap('img/' + this.maskName + '.png');
 
 			// wrap on a timeout, to allow getting the size of the img el
 			setTimeout(function () {
@@ -305,14 +317,6 @@
 			// to reference elsewhere
 			this.shapes = [shp1, shp2, shp3, shp4];
 
-			/*
-			 * widthout any offset
-			shp1.graphics.beginFill("#FFFFFF").drawRect(0, 0, this.shape_size.w, this.shape_size.h);
-			shp2.graphics.beginFill("#FFFFFF").drawRect(0, this.snapshot.image.height - this.shape_size.h, this.shape_size.w, this.shape_size.h);
-			shp3.graphics.beginFill("#FFFFFF").drawRect(this.snapshot.image.width - this.shape_size.w, this.snapshot.image.height - this.shape_size.h, this.shape_size.w, this.shape_size.h);
-			shp4.graphics.beginFill("#FFFFFF").drawRect(this.snapshot.image.width - this.shape_size.w, 0, this.shape_size.w, this.shape_size.h);
-			*/
-
 			// offset value is applied, so elements are not positioned in the corners
 			shp1.graphics.beginFill("#FFFFFF").drawRect(offset, offset, this.shape_size.w, this.shape_size.h);
 			shp2.graphics.beginFill("#FFFFFF").drawRect(offset, ((this.snapshot.image.height * scaleFactor) - offset) - this.shape_size.h, this.shape_size.w, this.shape_size.h);
@@ -339,29 +343,6 @@
 		},
 
 		downloadImg: function () {
-
-			/* FOR IE etc
-		    var newWindow = window.open("","Test","width=300,height=300,scrollbars=1,resizable=1")
-
-			var img = this.stage.canvas.toDataURL("image/jpeg");
-
-			newWindow.document.write('<img src="' + img + '"/>');
-
-			var link = document.createElement('a');
-
-			//link.style.display = 'none';
-			link.className = 'image_download';
-			link.text = 'Download image';
-			link.href = this.stage.canvas.toDataURL("image/png");
-			link.download
-			document.querySelector('.cta-wrap').appendChild(link);
-
-			link.click();
-
-			setTimeout(function () {
-				link.parentNode.removeChild(link);
-			}, 200);
-			*/
 
 			var xhr = new XMLHttpRequest();
 			xhr.open('POST', 'process_image.php', true);
@@ -449,30 +430,6 @@
 
 		camFitToScale: function () {
 
-			/*
-			var scaleFactor = parseInt(this.myCanvas.style.width) / this.webCamMaxWidth;
-
-			this.myCamera.style.transform = 'scale(' + scaleFactor + ')';
-			this.myCamera.style['-o-transform'] = 'scale(' + scaleFactor + ')';
-			this.myCamera.style['-webkit-transform'] = 'scale(' + scaleFactor + ')';
-			this.myCamera.style['-moz-transform'] = 'scale(' + scaleFactor + ')';
-
-			// keep mirror mode
-			this.myCamera.style.transform = 'scaleX(' + scaleFactor * -1 + ')';
-			this.myCamera.style['-o-transform'] = 'scaleX(' + scaleFactor * -1 + ')';
-			this.myCamera.style['-webkit-transform'] = 'scaleX(' + scaleFactor * -1 + ')';
-			this.myCamera.style['-moz-transform'] = 'scaleX(' + scaleFactor * -1 + ')';
-
-			if (!this.videoStream) {
-				this.videoStream = this.myCamera.querySelector('video');
-			}
-
-			this.videoStream.style.transform = 'scale(' + scaleFactor + ')';
-			this.videoStream.style['-o-transform'] = 'scale(' + scaleFactor + ')';
-			this.videoStream.style['-webkit-transform'] = 'scale(' + scaleFactor + ')';
-			this.videoStream.style['-moz-transform'] = 'scale(' + scaleFactor + ')';
-			*/
-
 			this.myCamera.style.width = window.innerWidth + 'px';
 			this.myCamera.style.height = window.innerWidth / (16 / 9)  + 'px';
 
@@ -516,14 +473,24 @@
 		removeShapshotHandler: function () {
 
 			this.moduleContainer.classList.remove('snapshot-on-stage');
+			this.stage.removeChild(this.maskImage);
 			this.container.removeAllChildren();
 			this.handler_container.removeAllChildren();
+
+		},
+
+		replaceMask: function () {
+
+			// remove current image
+			this.stage.removeChild(this.maskImage);
+
+			this.placeMask(false);
 
 		}
 
 	};
 
-	var arrImgList = ['img/mask_v2.png'];
+	var arrImgList = ['img/mask_01.png', 'img/mask_02.png', 'img/mask_03.png'];
 
 	imagesLoaded(arrImgList, function( instance ) {
 		var canvasImageSnapper = new CanvasImageSnapper();
