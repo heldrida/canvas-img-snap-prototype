@@ -271,7 +271,7 @@
 
 		placeMask: function (callback) {
 
-			this.maskImage = new createjs.Bitmap('img/mask_v2.png');
+			this.maskImage = new createjs.Bitmap('img/mask_002.png');
 
 			// wrap on a timeout, to allow getting the size of the img el
 			setTimeout(function () {
