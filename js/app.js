@@ -12,11 +12,18 @@
 
 			this.setVars();
 			this.setListeners();
-			this.placeMask(this.setWebcam.bind(this));
+
+			/*
+			setTimeout(function () {
+				this.placeMask(this.setWebcam.bind(this));
+			}.bind(this), 100);
+			*/
 
 		},
 
 		setVars: function () {
+
+			createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
 			this.myCanvas = document.querySelector('#myCanvas');
 			this.myCanvas.style.width = window.innerWidth + 'px';
@@ -61,19 +68,40 @@
 
 			this.galleryThemes = document.querySelectorAll('.gallery-selector ul li');
 
+			// initial mask name
 			this.maskName = 'mask_01';
 
-			// cache
+			// cache images
 			this.cached = {
-				images: {
-					'mask_01': new createjs.Bitmap('img/mask_01.png'),
-					'mask_02': new createjs.Bitmap('img/mask_02.png'),
-					'mask_03': new createjs.Bitmap('img/mask_03.png'),
-				}
+				images: {}
 			};
+
+			// preload
+			var arrImgList = ['img/mask_01.png', 'img/mask_02.png', 'img/mask_03.png'],
+				loaded = 0;
+
+			for (var i = 0; i < arrImgList.length; i++) {
+
+				var img = new Image();
+
+				img.addEventListener('load', function () {
+
+					loaded = loaded + 1;
+
+					if (loaded === Object.keys(this.cached.images).length) {
+						this.placeMask(this.setWebcam.bind(this));
+					}
+
+				}.bind(this));
+
+				img.src = arrImgList[i];
+				this.cached.images['mask_0' + (i + 1)] = new createjs.Bitmap(img);
+			}
 
 			// mandrill api key
 			this.mandrillApiKey = 'nHH-2zTVBPBY35vglYN1jg';
+
+			this.form = document.querySelector('form[name="email"]');
 
 		},
 
@@ -137,10 +165,21 @@
 			var context = this;
 			for (var i = 0; i < this.galleryThemes.length; i++) {
 				this.galleryThemes[i].addEventListener('click', function () {
+
+					// clear existing
+					if (context.maskImage) {
+						context.stage.removeChild(context.maskImage);
+						context.stage.update();
+					}
+
 					context.maskName = this.getAttribute('data-mask-name');
+
 					context.placeMask.call(context, false);
+
 				});
 			}
+
+			window.addEventListener('submit', this.formHandler.bind(this));
 
 		},
 
@@ -289,30 +328,20 @@
 
 		placeMask: function (callback) {
 
-			if (this.maskImage) {
-				this.stage.removeChild(this.maskImage);
-				this.stage.update();
-			}
-
 			this.maskImage = this.cached.images[this.maskName];
 
-			// wrap on a timeout, to allow getting the size of the img el
-			setTimeout(function () {
+			this.maskImage.scaleX = parseInt(this.myCanvas.style.width) / this.maskImage.image.width;
+			this.maskImage.scaleY = parseInt(this.myCanvas.style.height) / this.maskImage.image.height;
 
-				this.maskImage.scaleX = parseInt(this.myCanvas.style.width) / this.maskImage.image.width;
-				this.maskImage.scaleY = parseInt(this.myCanvas.style.height) / this.maskImage.image.height;
+			this.stage.addChild(this.maskImage);
 
-				this.stage.addChild(this.maskImage);
+			this.stage.update();
 
-				this.stage.update();
+			if (typeof callback === "function") {
 
-				if (typeof callback === "function") {
+				callback.call(this);
 
-					callback.call(this);
-
-				}
-
-			}.bind(this), 0);
+			}
 
 		},
 
@@ -493,31 +522,24 @@
 			this.placeMask();
 		},
 
-		sendEmail: function (){
+		sendEmail: function (params){
 
 			// hide the handlers while taking a shot
 			this.hideHandlers();
 
 			var image_attachment = this.stage.canvas.toDataURL("image/png").split('base64,')[1],
 
-				userData = {
-				 		email: 'info@punkbit.com',
-				 		name: 'Punkbit',
-				 		subject: 'My title!',
-				 		html: '<p>Hello world</p>'
-			 	},
-
 			 	data = {
 					'key': this.mandrillApiKey,
 					'message': {
-						'from_email': 'info@punkbit.com',
+						'from_email': 'helder@lamoulade.com',
 						'to': [{
-							'email': userData.email,
-							'name': userData.name,
+							'email': params.email,
+							'name': params.fullname,
 							'type': 'to'
 							}],
-						'subject': userData.subject,
-						'html': userData.html,
+						'subject': params.subject,
+						'html': params.html,
 						'attachments': [{
 							'type': 'image/jpeg',
 							'name': '9sdhjoi3nn0sdnbonZkfk3ewdsxzX.jpeg',
@@ -567,15 +589,26 @@
 				console.log('xhr error!');
 			});
 
+		},
+
+		formHandler: function (e) {
+
+			e.preventDefault();
+
+			// todo: validation
+			this.sendEmail({
+				fullname: this.form.elements['fullname'].value,
+				email: this.form.elements['email'].value,
+				subject: 'Photo snap prototype test email',
+				html: '<h3>Photo snap prototype: Test email</h3><p>Lorem ipsum doloriam opus copuscapolis, ladrusa madragolium su tarac patramautia, nucula scopra tramonsta escura.</p>'
+			});
+
 		}
 
 	};
 
-	var arrImgList = ['img/mask_01.png', 'img/mask_02.png', 'img/mask_03.png'];
+	var canvasImageSnapper = new CanvasImageSnapper();
 
-	imagesLoaded(arrImgList, function( instance ) {
-		var canvasImageSnapper = new CanvasImageSnapper();
-		window.canvasImageSnapper = canvasImageSnapper;
-	});
+	window.canvasImageSnapper = canvasImageSnapper;
 
 })(window);
