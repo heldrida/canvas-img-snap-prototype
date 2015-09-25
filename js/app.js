@@ -527,7 +527,9 @@
 			// hide the handlers while taking a shot
 			this.hideHandlers();
 
-			var image_attachment = this.stage.canvas.toDataURL("image/png").split('base64,')[1],
+			var context = this,
+
+			image_attachment = this.stage.canvas.toDataURL("image/png").split('base64,')[1],
 
 			 	data = {
 					'key': this.mandrillApiKey,
@@ -579,7 +581,9 @@
 				if (this.readyState == 4 && this.status == 200) {
 
 					var response = this.responseText;
-					console.log('response', response);
+
+
+					context.submitSuccessHandler.call(context, response);
 
 				}
 
@@ -602,6 +606,32 @@
 				subject: 'Photo snap prototype test email',
 				html: '<h3>Photo snap prototype: Test email</h3><p>Lorem ipsum doloriam opus copuscapolis, ladrusa madragolium su tarac patramautia, nucula scopra tramonsta escura.</p>'
 			});
+
+		},
+
+		submitSuccessHandler: function (res) {
+
+			console.log('submitSuccessHandler');
+
+			var delay = 3000;
+
+			// show success message temporarely, then remove snapshot
+			this.moduleContainer.classList.add('form-success');
+
+			// remove handlers while
+			this.handler_container.removeAllChildren();
+
+			this.stage.update.call(this);
+
+			setTimeout(function () {
+
+				this.moduleContainer.classList.remove('form-success');
+
+				this.removeShapshotHandler.call(this);
+
+				this.stage.update.call(this);
+
+			}.bind(this), delay);
 
 		}
 

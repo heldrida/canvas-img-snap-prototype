@@ -8,7 +8,8 @@
 
 	.btn-download,
 	.remove_snapshot,
-	.formWrap {
+	.formWrap,
+	.success-msg {
 		display: none;
 	}
 
@@ -29,6 +30,31 @@
 
 		.formWrap {
 			display: block;
+		}
+	}
+
+	&.form-success {
+		.cta-wrap,
+		.formWrap {
+			display: none;
+		}
+
+		.success-msg {
+			position: relative;
+			z-index: 1;
+			display: block;
+			padding: 50px 0;
+			margin-left: 50px;
+			width: 250px;
+
+			p {
+				color: #fff;
+			}
+
+			h3 {
+				color: #fff;
+				font-size: 18px;
+			}
 		}
 	}
 
