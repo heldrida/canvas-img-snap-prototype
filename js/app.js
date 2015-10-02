@@ -502,7 +502,8 @@
 
 				this.placeImageToCanvas.call(this, data_uri);
 
-				this.placeMask.call(this, this.placeResizeHandlers);
+				// this.placeMask.call(this, this.placeResizeHandlers);
+				this.placeMask.call(this, false); // disabled the handlers
 
 				this.moduleContainer.classList.add('snapshot-on-stage');
 
