@@ -113,7 +113,9 @@
 		setListeners: function () {
 
 			// disable to improve performance
-			//createjs.Ticker.addEventListener("tick", this.tickHandler.bind(this));
+			if (window.navigator.userAgent.toLocaleLowerCase().indexOf('firefox')) {
+				createjs.Ticker.addEventListener("tick", this.tickHandler.bind(this));
+			}
 
 			this.el_take_snapshot.addEventListener('click', this.snapHandler.bind(this));
 
@@ -311,7 +313,7 @@
 		placeImageToCanvas: function (data_uri) {
 
 			// reset
-			this.container.removeAllChildren();
+			//this.container.removeAllChildren();
 
 			this.snapshot = new createjs.Bitmap(data_uri);
 
@@ -335,7 +337,6 @@
 		},
 
 		placeMask: function (callback) {
-			return callback.call(this);
 
 			this.maskImage = this.cached.images[this.maskName];
 
@@ -459,8 +460,10 @@
 
 			this.camFitToScale();
 
-			this.maskImage.scaleX = parseInt(this.myCanvas.style.width) / this.maskImage.image.width;
-			this.maskImage.scaleY = parseInt(this.myCanvas.style.height) / this.maskImage.image.height;
+			if (this.maskImage) {
+				this.maskImage.scaleX = parseInt(this.myCanvas.style.width) / this.maskImage.image.width;
+				this.maskImage.scaleY = parseInt(this.myCanvas.style.height) / this.maskImage.image.height;
+			}
 
 			this.stage.update();
 
