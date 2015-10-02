@@ -10,14 +10,9 @@
 
 		init: function () {
 
+			this.detectUserMedia();
 			this.setVars();
 			this.setListeners();
-
-			/*
-			setTimeout(function () {
-				this.placeMask(this.setWebcam.bind(this));
-			}.bind(this), 100);
-			*/
 
 		},
 
@@ -645,6 +640,18 @@
 				this.stage.update.call(this);
 
 			}.bind(this), delay);
+
+		},
+
+		detectUserMedia: function () {
+
+			// todo: if no getUSerMedia, display the camera layer on top
+			// of the canvas, so that the `flash player popup` displays
+			if (false) {
+
+				this.myCanvas.style.zIndex = -1;
+
+			}
 
 		}
 
