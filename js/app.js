@@ -58,9 +58,14 @@
 
 			this.shapes;
 
-			this.webCamMaxWidth = 1280;
-			this.webCamMaxHeight = 720;
-			this.webCamSizeRatio = 16 / 9;
+			// initially was 16:9 but unfortunatelly Firefox at this point
+			// does not support HD and it's strict to 4:3, which is annoying
+			// initially was a wide 16:9, resizing through distortion, so
+			// full responsiveness as wide as the topbox
+			// but this does not play well on Firefox atm, which is annoying
+			this.webCamMaxWidth = 640;
+			this.webCamMaxHeight = 480;
+			this.webCamSizeRatio = 4 / 3;
 
 			this.snapshots = [];
 
@@ -310,10 +315,13 @@
 
 			this.snapshot = new createjs.Bitmap(data_uri);
 
-			var scaleFactor = parseInt(this.myCanvas.style.width) / this.webCamMaxWidth;
+			var scaleFactor = parseInt(this.myCanvas.style.height) / this.webCamMaxHeight;
 
 			this.snapshot.scaleX = scaleFactor;
 			this.snapshot.scaleY = scaleFactor;
+
+			// position center
+			this.snapshot.x = (parseInt(this.myCanvas.style.width) - (this.webCamMaxWidth * scaleFactor)) / 2;
 
 			this.container.addChild(this.snapshot);
 
@@ -327,6 +335,7 @@
 		},
 
 		placeMask: function (callback) {
+			return callback.call(this);
 
 			this.maskImage = this.cached.images[this.maskName];
 
