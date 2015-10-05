@@ -516,11 +516,20 @@
 
 			this.myCamera.querySelector('object').setAttribute('width', window.innerWidth + 'px');
 			this.myCamera.querySelector('object').setAttribute('height', window.innerWidth / (16 / 9)  + 'px');
-			/*
-			window.Webcam.reset();
-			this.detectUserMedia();
-			this.setWebcam();
-			*/
+
+			if (window.Webcam.live) {
+				window.Webcam.reset();
+				this.detectUserMedia();
+				Webcam.set({
+					width: window.innerWidth,
+					height: window.innerWidth / (16 / 9),
+					dest_width: window.innerWidth,
+					dest_height: window.innerWidth / (16 / 9),
+					image_format: 'png',
+					flip_horiz: true
+				});
+				Webcam.attach(this.myCamera);
+			}
 
 		},
 
