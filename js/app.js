@@ -520,15 +520,7 @@
 			if (window.Webcam.live) {
 				window.Webcam.reset();
 				this.detectUserMedia();
-				Webcam.set({
-					width: window.innerWidth,
-					height: window.innerWidth / (16 / 9),
-					dest_width: window.innerWidth,
-					dest_height: window.innerWidth / (16 / 9),
-					image_format: 'png',
-					flip_horiz: true
-				});
-				Webcam.attach(this.myCamera);
+				this.setWebcam.call(this);
 			}
 
 		},
