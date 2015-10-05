@@ -10,8 +10,8 @@
 
 		init: function () {
 
-			this.detectUserMedia();
 			this.setVars();
+			this.detectUserMedia();
 			this.setListeners();
 
 		},
@@ -477,6 +477,10 @@
 
 		camFitToScale: function () {
 
+			if (!window.Webcam.userMedia) {
+				return this.camFitToScaleFlashFallback();
+			}
+
 			this.myCamera.style.width = window.innerWidth + 'px';
 			this.myCamera.style.height = window.innerWidth / (16 / 9)  + 'px';
 
@@ -486,6 +490,16 @@
 
 			this.videoStream.style.width = window.innerWidth + 'px';
 			this.videoStream.style.height = window.innerWidth / (16 / 9)  + 'px';
+
+		},
+
+		camFitToScaleFlashFallback: function () {
+
+			this.myCamera.style.width = window.innerWidth + 'px';
+			this.myCamera.style.height = window.innerWidth / (16 / 9)  + 'px';
+
+			this.myCamera.querySelector('object').setAttribute('width', window.innerWidth + 'px');
+			this.myCamera.querySelector('object').setAttribute('height', window.innerWidth / (16 / 9)  + 'px');
 
 		},
 
@@ -645,11 +659,47 @@
 
 		detectUserMedia: function () {
 
-			// todo: if no getUSerMedia, display the camera layer on top
-			// of the canvas, so that the `flash player popup` displays
-			if (false) {
+			var context = this;
 
-				this.myCanvas.style.zIndex = -1;
+			// if flash fallback, check for state change
+			function checkFlashFallbackStateLooper() {
+
+				setTimeout(function () {
+
+					if (typeof window.Webcam !== "undefined") {
+
+						if (window.Webcam.live) {
+
+							// set the camera back to original position
+							context.myCamera.style.zIndex = '';
+							//context.myCanvas.style.opacity = '';
+
+						} else {
+
+							// recursive loop
+							checkFlashFallbackStateLooper();
+
+						}
+
+					} else {
+
+						// recursive loop
+						checkFlashFallbackStateLooper();
+
+					}
+
+				}, 300);
+
+			}
+
+			// if no getUSerMedia, display the camera layer on top
+			// of the canvas, so that the `flash player popup` displays
+			if (!window.Webcam.userMedia) {
+
+				// place the camera container to top position
+				this.myCamera.style.zIndex = 999;
+				this.myCanvas.style.opacity = 0.2;
+				checkFlashFallbackStateLooper();
 
 			}
 
