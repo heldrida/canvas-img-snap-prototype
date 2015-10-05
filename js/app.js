@@ -116,6 +116,10 @@
 
 			this.dragBox.addEventListener("mousedown", function (event) {
 
+				if (!window.Webcam.userMedia) {
+					return;
+				}
+
 				var offset = new createjs.Point();
 
 				offset.x = this.stage.mouseX - this.container.x;
@@ -292,14 +296,25 @@
 
 		setWebcam: function () {
 
-			Webcam.set({
-				width: this.webCamMaxWidth,
-				height: this.webCamMaxWidth / this.webCamSizeRatio,
-				dest_width: this.webCamMaxWidth,
-				dest_height: this.webCamMaxWidth / this.webCamSizeRatio,
-				image_format: 'png',
-				flip_horiz: true
-			});
+			if (window.Webcam.userMedia) {
+				Webcam.set({
+					width: this.webCamMaxWidth,
+					height: this.webCamMaxWidth / this.webCamSizeRatio,
+					dest_width: this.webCamMaxWidth,
+					dest_height: this.webCamMaxWidth / this.webCamSizeRatio,
+					image_format: 'png',
+					flip_horiz: true
+				});
+			} else {
+				Webcam.set({
+					width: window.innerWidth,
+					height: window.innerWidth / (16 / 9),
+					dest_width: window.innerWidth,
+					dest_height: window.innerWidth / (16 / 9),
+					image_format: 'png',
+					flip_horiz: true
+				});
+			}
 
 			Webcam.attach(this.myCamera);
 
@@ -307,18 +322,19 @@
 
 		placeImageToCanvas: function (data_uri) {
 
-			// reset
-			//this.container.removeAllChildren();
-
 			this.snapshot = new createjs.Bitmap(data_uri);
 
-			var scaleFactor = parseInt(this.myCanvas.style.height) / this.webCamMaxHeight;
+			if (window.Webcam.userMedia) {
 
-			this.snapshot.scaleX = scaleFactor;
-			this.snapshot.scaleY = scaleFactor;
+				var scaleFactor = parseInt(this.myCanvas.style.height) / this.webCamMaxHeight;
 
-			// position center
-			this.snapshot.x = (parseInt(this.myCanvas.style.width) - (this.webCamMaxWidth * scaleFactor)) / 2;
+				this.snapshot.scaleX = scaleFactor;
+				this.snapshot.scaleY = scaleFactor;
+
+				// position center
+				this.snapshot.x = (parseInt(this.myCanvas.style.width) - (this.webCamMaxWidth * scaleFactor)) / 2;
+
+			}
 
 			this.container.addChild(this.snapshot);
 
@@ -500,6 +516,11 @@
 
 			this.myCamera.querySelector('object').setAttribute('width', window.innerWidth + 'px');
 			this.myCamera.querySelector('object').setAttribute('height', window.innerWidth / (16 / 9)  + 'px');
+			/*
+			window.Webcam.reset();
+			this.detectUserMedia();
+			this.setWebcam();
+			*/
 
 		},
 
@@ -672,7 +693,7 @@
 
 							// set the camera back to original position
 							context.myCamera.style.zIndex = '';
-							//context.myCanvas.style.opacity = '';
+							context.myCanvas.style.opacity = '';
 
 						} else {
 
@@ -698,7 +719,7 @@
 
 				// place the camera container to top position
 				this.myCamera.style.zIndex = 999;
-				this.myCanvas.style.opacity = 0.2;
+				this.myCanvas.style.opacity = 0;
 				checkFlashFallbackStateLooper();
 
 			}
