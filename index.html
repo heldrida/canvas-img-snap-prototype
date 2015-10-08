@@ -2,59 +2,111 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Canvas img snap prototype</title>
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.2/css/swiper.min.css">
 	<link rel="stylesheet" href="css/app.css">
 </head>
 <body>
 
 	<div class="p-canvas-webcam-prototype">
 
-		<div id="my_camera" class="box"></div>
+		<!-- start: desktop module -->
+		<div class="desktop-module">
 
-		<canvas id="myCanvas" class="box"></canvas>
+			<div id="my_camera" class="box"></div>
 
-		<div class="success-msg">
-			<h3>Email sent!</h3>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, excepturi ipsum, doloribus voluptates tempore fugit..</p>
+			<canvas id="myCanvas" class="box"></canvas>
+
+			<div class="success-msg">
+				<h3>Email sent!</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, excepturi ipsum, doloribus voluptates tempore fugit..</p>
+			</div>
+
+			<div class="cta-wrap">
+				<button class="btn h-btn take_snapshot">Take Snapshot</button>
+				<button class="btn h-btn remove_snapshot">Remove Snapshot</button>
+				<button class="btn h-btn btn-print hidden">Print result</button>
+				<button class="btn h-btn btn-download">Download</button>
+			</div>
+
+			<div class="cta-wrap gallery-selector">
+				<h6>Choose the theme image:</h6>
+				<ul>
+					<li class="h-btn" data-mask-name="mask_01">1</li>
+					<li class="h-btn" data-mask-name="mask_02">2</li>
+					<li class="h-btn" data-mask-name="mask_03">3</li>
+				</ul>
+			</div>
+
+			<div class="formWrap">
+				<form name="email">
+					<label for="fullname">
+						<span>Full name:</span>
+						<input type="text" name="fullname" placeholder="Full name...">
+					</label>
+					<label for="email">
+						<span>Email:</span>
+						<input type="text" name="email" placeholder="Email address...">
+					</label>
+					<input type="submit" value="send">
+				</form>
+			</div>
+
+			<div id="my_result"></div>
+
+
 		</div>
+		<!-- end: desktop module -->
 
-		<div class="cta-wrap">
-			<button class="btn h-btn take_snapshot">Take Snapshot</button>
-			<button class="btn h-btn remove_snapshot">Remove Snapshot</button>
-			<button class="btn h-btn btn-print hidden">Print result</button>
-			<button class="btn h-btn btn-download">Download</button>
+		<!-- start: mobile module -->
+		<div class="mobile-module">
+
+			<!-- start: main slider container -->
+			<div class="swiper-container">
+
+				<!-- Additional required wrapper -->
+				<div class="swiper-wrapper">
+					<!-- Slides -->
+					<div class="swiper-slide">
+						<img src="img/mobile-001.jpg?201510081649" alt="">
+					</div>
+					<div class="swiper-slide">
+						<img src="img/mobile-002.jpg?201510081649" alt="">
+					</div>
+					<div class="swiper-slide">
+						<img src="img/mobile-003.jpg?201510081649" alt="">
+					</div>
+				</div>
+
+				<!-- If we need pagination -->
+				<div class="swiper-pagination"></div>
+
+				<!-- If we need navigation buttons -->
+				<div class="swiper-button-prev"></div>
+				<div class="swiper-button-next"></div>
+
+			</div>
+			<!-- end: main slider container -->
+
+			<div class="cta-wrap gallery-selector">
+				<h6>Choose the theme image:</h6>
+				<ul>
+					<li class="h-btn" data-mask-name="mask_01">1</li>
+					<li class="h-btn" data-mask-name="mask_02">2</li>
+					<li class="h-btn" data-mask-name="mask_03">3</li>
+				</ul>
+			</div>
+
 		</div>
-
-		<div class="cta-wrap gallery-selector">
-			<h6>Choose the theme image:</h6>
-			<ul>
-				<li class="h-btn" data-mask-name="mask_01">1</li>
-				<li class="h-btn" data-mask-name="mask_02">2</li>
-				<li class="h-btn" data-mask-name="mask_03">3</li>
-			</ul>
-		</div>
-
-		<div class="formWrap">
-			<form name="email">
-				<label for="fullname">
-					<span>Full name:</span>
-					<input type="text" name="fullname" placeholder="Full name...">
-				</label>
-				<label for="email">
-					<span>Email:</span>
-					<input type="text" name="email" placeholder="Email address...">
-				</label>
-				<input type="submit" value="send">
-			</form>
-		</div>
-
-		<div id="my_result"></div>
+		<!-- end: mobile module -->
 
 	</div>
 
 	<script src="js/vendor/webcamjs/webcam.min.js"></script>
 	<script src="https://code.createjs.com/easeljs-0.8.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.2/js/swiper.min.js"></script>
 	<script src="js/app.js"></script>
 
 </body>
