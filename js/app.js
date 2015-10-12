@@ -77,26 +77,34 @@
 			};
 
 			// preload
-			var arrImgList = ['img/mask_01.png', 'img/mask_02.png', 'img/mask_03.png'],
-				loaded = 0;
+			this.initMasks = function () {
+				console.log('initMasks');
 
-			for (var i = 0; i < arrImgList.length; i++) {
+				var arrImgList = ['img/mask_01.png', 'img/mask_02.png', 'img/mask_03.png'],
+					loaded = 0;
 
-				var img = new Image();
+				for (var i = 0; i < arrImgList.length; i++) {
 
-				img.addEventListener('load', function () {
+					var img = new Image();
 
-					loaded = loaded + 1;
+					img.addEventListener('load', function () {
 
-					if (loaded === Object.keys(this.cached.images).length) {
-						this.placeMask(this.setWebcam.bind(this));
-					}
+						loaded = loaded + 1;
 
-				}.bind(this));
+						if (loaded === Object.keys(this.cached.images).length) {
+							if (window.innerWidth > 767) {
+								this.placeMask(this.setWebcam.bind(this));
+							}
+						}
 
-				img.src = arrImgList[i];
-				this.cached.images['mask_0' + (i + 1)] = new createjs.Bitmap(img);
-			}
+					}.bind(this));
+
+					img.src = arrImgList[i];
+					this.cached.images['mask_0' + (i + 1)] = new createjs.Bitmap(img);
+				}
+			};
+
+			this.initMasks();
 
 			// mandrill api key
 			this.mandrillApiKey = 'nHH-2zTVBPBY35vglYN1jg';
@@ -119,6 +127,8 @@
 				});
 
 			}
+
+			this.throttleReSetWebcamTimeout = null;
 
 		},
 
@@ -175,11 +185,23 @@
 
 			}.bind(this));
 
-			Webcam.on('load', function () {
+			this.setWebcamLoadListener = function () {
 
-				this.camFitToScale();
+				Webcam.on('load', function () {
 
-			}.bind(this));
+					console.log('webcam loaded');
+
+					this.camFitToScale();
+
+				}.bind(this));
+
+			};
+
+			if (typeof window.Webcam !== undefined) {
+
+				this.setWebcamLoadListener();
+
+			}
 
 			this.el_remove_snapshot.addEventListener('click', function () {
 				this.removeShapshotHandler.call(this);
@@ -488,6 +510,41 @@
 
 		winResizeHandler: function () {
 
+			if (window.innerWidth <= 767) {
+
+				console.log('winResizeHandler <= 767');
+
+				if (typeof window.Webcam !== 'undefined') {
+
+					//window.Webcam.off('load');
+					window.Webcam.reset();
+
+				}
+
+				return;
+
+			} else if (window.innerWidth > 767) {
+
+				console.log('winResizeHandler > 767');
+
+				if (typeof window.Webcam === 'undefined' || window.Webcam.live === false) {
+
+					console.log("typeof window.Webcam === 'undefined' || typeof window.Webcam.live === 'undefined'", typeof window.Webcam === 'undefined' || typeof window.Webcam.live === 'undefined');
+
+					clearTimeout(this.throttleReSetWebcamTimeout);
+
+					this.throttleReSetWebcamTimeout = setTimeout(function () {
+
+						this.setWebcam.call(this);
+
+					}.bind(this), 1200);
+
+				}
+
+			}
+
+			console.log('winResizeHandler --- continue after if clauses');
+
 			this.myCanvas.style.width = window.innerWidth + 'px';
 			this.myCanvas.style.height = window.innerWidth / (16/9) + 'px';
 			this.stage.canvas.width = parseInt(this.myCanvas.style.width);
@@ -497,7 +554,11 @@
 			this.moduleContainer.style.width = window.innerWidth + 'px';
 			this.moduleContainer.style.height = window.innerWidth / (16/9) + 'px';
 
-			this.camFitToScale();
+			if (typeof window.Webcam !== 'undefined' && window.Webcam.live === true) {
+
+				this.camFitToScale();
+
+			}
 
 			if (this.maskImage) {
 				this.maskImage.scaleX = parseInt(this.myCanvas.style.width) / this.maskImage.image.width;
@@ -744,7 +805,7 @@
 
 			// if no getUSerMedia, display the camera layer on top
 			// of the canvas, so that the `flash player popup` displays
-			if (!window.Webcam.userMedia) {
+			if (typeof window.Webcam !== "undefined" && !window.Webcam.userMedia) {
 
 				// place the camera container to top position
 				this.myCamera.style.zIndex = 999;

@@ -224,7 +224,19 @@
 	}
 
 	.mobile-module {
-		.cta-wrap {
+		.cta-wrap.actions {
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 2;
+
+			button {
+				color: #fff;
+				border: 1px solid #fff;
+			}
+		}
+
+		.cta-wrap.gallery-selector {
 			position: absolute;
 			bottom: 0px;
 			left: 0;
