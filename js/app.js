@@ -105,7 +105,7 @@
 
 			if (window.innerWidth <= 767) {
 
-				var mySwiper = new Swiper ('.swiper-container', {
+				this.mySwiper = new Swiper ('.swiper-container', {
 					// Optional parameters
 					direction: 'horizontal',
 					loop: true,
@@ -187,7 +187,16 @@
 
 			var context = this;
 			for (var i = 0; i < this.galleryThemes.length; i++) {
-				this.galleryThemes[i].addEventListener('click', function () {
+				this.galleryThemes[i].addEventListener('click', function (e) {
+
+					if (window.innerWidth <= 767) {
+
+						var index = e.target.getAttribute('data-index');
+						context.mySwiper.slideTo(index);
+
+						return;
+
+					}
 
 					// clear existing
 					if (context.maskImage) {
@@ -196,6 +205,8 @@
 					}
 
 					context.maskName = this.getAttribute('data-mask-name');
+
+					console.log(context.maskName);
 
 					context.placeMask.call(context, false);
 
