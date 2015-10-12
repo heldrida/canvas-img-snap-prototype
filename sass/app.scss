@@ -257,6 +257,16 @@
 		}
 	}
 
+	&.no-flash-installed {
+		.desktop-module {
+			display: none;
+		}
+
+		.mobile-module {
+			display: block;
+		}
+	}
+
 	@media only screen and (max-width: 767px) {
 		.desktop-module {
 			display: none;

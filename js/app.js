@@ -18,6 +18,7 @@
 
 		setVars: function () {
 
+			this.flashInstalled = null;
 			createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
 			this.myCanvas = document.querySelector('#myCanvas');
@@ -26,6 +27,8 @@
 			this.moduleContainer = document.querySelector('.p-canvas-webcam-prototype');
 			this.moduleContainer.style.width = window.innerWidth + 'px';
 			this.moduleContainer.style.height = window.innerWidth / (16/9) + 'px';
+			this.desktopModule = document.querySelector('.desktop-module');
+			this.mobileModule = document.querySelector('.mobile-module');
 			this.myCamera = document.querySelector('#my_camera');
 			this.videoStream = this.myCamera.querySelector('video');
 			this.stage = new createjs.Stage('myCanvas');
@@ -104,31 +107,44 @@
 				}
 			};
 
-			this.initMasks();
+			if (window.Webcam.userMedia || this.flashInstalled) {
+
+				this.initMasks();
+
+			}
 
 			// mandrill api key
 			this.mandrillApiKey = 'nHH-2zTVBPBY35vglYN1jg';
 
 			this.form = document.querySelector('form[name="email"]');
 
-			if (window.innerWidth <= 767) {
+			if (window.innerWidth <= 767 || !this.flashInstalled) {
 
-				this.mySwiper = new Swiper ('.swiper-container', {
-					// Optional parameters
-					direction: 'horizontal',
-					loop: true,
+				var imgLoad = imagesLoaded('.swiper-pagination');
 
-					// If we need pagination
-					pagination: '.swiper-pagination',
+				imgLoad.on('done', function () {
 
-					// Navigation arrows
-					nextButton: '.swiper-button-next',
-					prevButton: '.swiper-button-prev'
-				});
+					console.log('imagesLoaded done!');
+
+					this.mySwiper = new Swiper ('.swiper-container', {
+						// Optional parameters
+						direction: 'horizontal',
+						loop: true,
+
+						// If we need pagination
+						pagination: '.swiper-pagination',
+
+						// Navigation arrows
+						nextButton: '.swiper-button-next',
+						prevButton: '.swiper-button-prev'
+					});
+
+				}.bind(this));
 
 			}
 
-			this.throttleReSetWebcamTimeout = null;
+			this.reSetWebcamTimeout = null;
+			this.resetWebcamThrottleMs = 1800;
 
 		},
 
@@ -208,10 +224,9 @@
 			}.bind(this));
 
 			var context = this;
-			for (var i = 0; i < this.galleryThemes.length; i++) {
-				this.galleryThemes[i].addEventListener('click', function (e) {
+			var galleryItemClickHandler = function (e) {
 
-					if (window.innerWidth <= 767) {
+					if (window.innerWidth <= 767 || !context.flashInstalled) {
 
 						var index = e.target.getAttribute('data-index');
 						context.mySwiper.slideTo(index);
@@ -226,11 +241,24 @@
 						context.stage.update();
 					}
 
-					context.maskName = this.getAttribute('data-mask-name');
+					context.maskName = e.target.getAttribute('data-mask-name');
 
 					console.log(context.maskName);
 
 					context.placeMask.call(context, false);
+
+			};
+
+			for (var i = 0; i < this.galleryThemes.length; i++) {
+				this.galleryThemes[i].addEventListener('click', function (e) {
+
+					galleryItemClickHandler.call(this, e);
+
+				}.bind(this));
+
+				this.galleryThemes[i].addEventListener('touchstart', function (e) {
+
+					galleryItemClickHandler.call(this, e);
 
 				});
 			}
@@ -514,7 +542,9 @@
 
 				console.log('winResizeHandler <= 767');
 
-				if (typeof window.Webcam !== 'undefined') {
+				this.winMobileResizeHandler.call(this);
+
+				if (typeof window.Webcam !== 'undefined' || window.Webcam.live === false) {
 
 					//window.Webcam.off('load');
 					window.Webcam.reset();
@@ -531,13 +561,15 @@
 
 					console.log("typeof window.Webcam === 'undefined' || typeof window.Webcam.live === 'undefined'", typeof window.Webcam === 'undefined' || typeof window.Webcam.live === 'undefined');
 
-					clearTimeout(this.throttleReSetWebcamTimeout);
+					clearTimeout(this.reSetWebcamTimeout);
 
-					this.throttleReSetWebcamTimeout = setTimeout(function () {
+					this.reSetWebcamTimeout = setTimeout(function () {
+
+						this.placeMask();
 
 						this.setWebcam.call(this);
 
-					}.bind(this), 1200);
+					}.bind(this), this.resetWebcamThrottleMs);
 
 				}
 
@@ -566,6 +598,15 @@
 			}
 
 			this.stage.update();
+
+		},
+
+		winMobileResizeHandler: function () {
+
+			console.log('winMobileResizeHandler()');
+
+			this.moduleContainer.style.width = window.innerWidth + 'px';
+			this.moduleContainer.style.height = window.innerWidth / (16/9) + 'px';
 
 		},
 
@@ -772,12 +813,19 @@
 
 			var context = this;
 
+this.flashInstalled = false;
+this.moduleContainer.classList.add('no-flash-installed');
+return;
+
+
 			// if flash fallback, check for state change
 			function checkFlashFallbackStateLooper() {
 
 				setTimeout(function () {
 
 					if (typeof window.Webcam !== "undefined") {
+
+						console.log('checkFlashFallbackStateLooper Webcam !== undefined');
 
 						if (window.Webcam.live) {
 
@@ -794,8 +842,16 @@
 
 					} else {
 
-						// recursive loop
-						checkFlashFallbackStateLooper();
+						if(swfobject.hasFlashPlayerVersion("9.0.115")) {
+
+							// recursive loop
+							checkFlashFallbackStateLooper();
+
+						} else {
+
+							alert('no flash installed!');
+
+						}
 
 					}
 
@@ -807,10 +863,21 @@
 			// of the canvas, so that the `flash player popup` displays
 			if (typeof window.Webcam !== "undefined" && !window.Webcam.userMedia) {
 
-				// place the camera container to top position
-				this.myCamera.style.zIndex = 999;
-				this.myCanvas.style.opacity = 0;
-				checkFlashFallbackStateLooper();
+				if(!swfobject.hasFlashPlayerVersion("9.0.115")) {
+
+					this.flashInstalled = false;
+					this.moduleContainer.classList.add('no-flash-installed');
+
+				} else {
+
+					this.flashInstalled = true;
+
+					// place the camera container to top position
+					this.myCamera.style.zIndex = 999;
+					this.myCanvas.style.opacity = 0;
+					checkFlashFallbackStateLooper();
+
+				}
 
 			}
 
