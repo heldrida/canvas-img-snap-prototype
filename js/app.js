@@ -813,11 +813,6 @@
 
 			var context = this;
 
-this.flashInstalled = false;
-this.moduleContainer.classList.add('no-flash-installed');
-return;
-
-
 			// if flash fallback, check for state change
 			function checkFlashFallbackStateLooper() {
 
