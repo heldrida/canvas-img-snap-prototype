@@ -230,7 +230,9 @@
 			var context = this;
 			var galleryItemClickHandler = function (e) {
 
-					if (window.innerWidth <= 767 || !context.flashInstalled) {
+					if (window.innerWidth <= 767 || !window.Webcam.userMedia && !context.flashInstalled) {
+
+						console.log('1b bp');
 
 						var index = e.target.getAttribute('data-index');
 						context.mySwiper.slideTo(index);
@@ -255,13 +257,13 @@
 
 			for (var i = 0; i < this.galleryThemes.length; i++) {
 				this.galleryThemes[i].addEventListener('click', function (e) {
-
+					console.log('1 click');
 					galleryItemClickHandler.call(this, e);
 
 				}.bind(this));
 
 				this.galleryThemes[i].addEventListener('touchstart', function (e) {
-
+					console.log('2 click');
 					galleryItemClickHandler.call(this, e);
 
 				});
@@ -663,7 +665,9 @@
 
 			console.log('snapHandler');
 
-			if (window.innerWidth <= 767 || !this.flashInstalled) {
+			if (window.innerWidth <= 767 || !window.Webcam.userMedia && !this.flashInstalled) {
+
+				console.log('3 bp!');
 
 				this.gallerySnapHandler.call(this);
 
@@ -893,6 +897,10 @@
 		},
 
 		gallerySnapHandler: function () {
+
+			console.log('gallerySnapHandle');
+
+			this.moduleContainer.classList.add('snapshot-on-stage');
 
 			var selected_img_src = document.querySelector('.swiper-slide-active img').getAttribute('src');
 
