@@ -209,7 +209,7 @@
 	.swiper-container {
 		width: 100%;
 		height: auto;
-		position: relative;
+		position: absolute;
 
 		.swiper-wrapper {
 			.swiper-slide {
@@ -297,6 +297,18 @@
 
 		.btn {
 			border: 1px solid #000;
+		}
+
+		&.snapshot-on-stage {
+			.cta-wrap.actions {
+				display: none;
+			}
+
+			.formWrap {
+				position: relative;
+				z-index: 2px;
+				padding: 20px 0;
+			}
 		}
 	}
 }

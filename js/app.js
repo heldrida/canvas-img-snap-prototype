@@ -116,9 +116,9 @@
 			// mandrill api key
 			this.mandrillApiKey = 'nHH-2zTVBPBY35vglYN1jg';
 
-			this.form = document.querySelector('form[name="email"]');
+			if (window.innerWidth <= 767 || !window.Webcam.userMedia && !this.flashInstalled) {
 
-			if (window.innerWidth <= 767 || !this.flashInstalled) {
+				this.form = document.querySelector('.mobile-module form[name="email"]');
 
 				var imgLoad = imagesLoaded('.swiper-pagination');
 
@@ -141,10 +141,16 @@
 
 				}.bind(this));
 
+			} else {
+
+				this.form = document.querySelector('.desktop-module form[name="email"]');
+
 			}
 
 			this.reSetWebcamTimeout = null;
 			this.resetWebcamThrottleMs = 1800;
+
+			this.gallerySnappedImage = null;
 
 		},
 
@@ -714,14 +720,14 @@
 			this.placeMask();
 		},
 
-		sendEmail: function (params){
+		sendEmail: function (params) {
 
 			// hide the handlers while taking a shot
 			this.hideHandlers();
 
 			var context = this,
 
-			image_attachment = this.stage.canvas.toDataURL("image/png").split('base64,')[1],
+			image_attachment = (window.innerWidth <= 767 || !window.Webcam.userMedia && !this.flashInstalled) ? this.gallerySnappedImage : this.stage.canvas.toDataURL("image/png").split('base64,')[1],
 
 			 	data = {
 					'key': this.mandrillApiKey,
@@ -908,9 +914,11 @@
 
 			this.convertImgToBase64URL(selected_img_src, function (dataUrl) {
 
-				console.log('dataUrl', dataUrl);
+				console.log("dataUrl.split('base64,')[1]: ", dataUrl.split('base64,')[1]);
 
-			}, "image/jpg");
+				this.gallerySnappedImage = dataUrl.split('base64,')[1];
+
+			}.bind(this), "image/jpg");
 
 		},
 
