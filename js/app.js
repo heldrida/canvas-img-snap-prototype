@@ -38,7 +38,7 @@
 			createjs.Touch.enable(this.stage);
 
 			this.el_my_result = document.getElementById('my_result');
-			this.el_take_snapshot = document.querySelector('.take_snapshot');
+			this.el_take_snapshot = document.querySelectorAll('.take_snapshot');
 			this.container = new createjs.Container();
 			this.handler_container = new createjs.Container();
 
@@ -155,7 +155,11 @@
 				createjs.Ticker.addEventListener("tick", this.tickHandler.bind(this));
 			}
 
-			this.el_take_snapshot.addEventListener('click', this.snapHandler.bind(this));
+			for (var i = 0; i < this.el_take_snapshot.length; i++) {
+				this.el_take_snapshot[i].addEventListener('tap', this.snapHandler.bind(this));
+			}
+
+			console.log(this.el_take_snapshot);
 
 			this.dragBox.addEventListener("mousedown", function (event) {
 
@@ -657,6 +661,16 @@
 
 		snapHandler: function () {
 
+			console.log('snapHandler');
+
+			if (window.innerWidth <= 767 || !this.flashInstalled) {
+
+				this.gallerySnapHandler.call(this);
+
+				return;
+
+			}
+
 			Webcam.snap( function (data_uri) {
 
 				this.clearSnapshotsOnStage.call(this);
@@ -875,6 +889,43 @@
 				}
 
 			}
+
+		},
+
+		gallerySnapHandler: function () {
+
+			var selected_img_src = document.querySelector('.swiper-slide-active img').getAttribute('src');
+
+			console.log('selected_img', selected_img_src);
+
+			this.convertImgToBase64URL(selected_img_src, function (dataUrl) {
+
+				console.log('dataUrl', dataUrl);
+
+			}, "image/jpg");
+
+		},
+
+		convertImgToBase64URL: function (url, callback, outputFormat) {
+
+			var img = new Image();
+
+			img.crossOrigin = 'Anonymous';
+
+			img.onload = function () {
+
+				var canvas = document.createElement('CANVAS'),
+				ctx = canvas.getContext('2d'), dataURL;
+				canvas.height = this.height;
+				canvas.width = this.width;
+				ctx.drawImage(this, 0, 0);
+				dataURL = canvas.toDataURL(outputFormat);
+				callback(dataURL);
+				canvas = null;
+
+			};
+
+			img.src = url;
 
 		}
 

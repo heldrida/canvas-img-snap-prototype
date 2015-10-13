@@ -54,3 +54,5 @@
 		http://www.mattlunn.me.uk/blog/2011/11/handling-an-ajax-response-in-javascript-with-or-without-jquery/
 
 		https://mandrillapp.com/api/docs/messages.html
+
+		https://github.com/pukhalski/tap
