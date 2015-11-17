@@ -107,7 +107,7 @@
 				}
 			};
 
-			if (window.Webcam.userMedia || this.flashInstalled) {
+			if (window.Webcam.userMedia) {
 
 				this.initMasks();
 
@@ -386,6 +386,8 @@
 
 		setWebcam: function () {
 
+			console.log('setWebcam');
+
 			if (window.Webcam.userMedia) {
 				Webcam.set({
 					width: this.webCamMaxWidth,
@@ -438,6 +440,8 @@
 		},
 
 		placeMask: function (callback) {
+
+			console.log('placeMask fn');
 
 			this.maskImage = this.cached.images[this.maskName];
 
@@ -895,6 +899,8 @@
 					this.myCamera.style.zIndex = 999;
 					this.myCanvas.style.opacity = 0;
 					checkFlashFallbackStateLooper();
+
+					this.initMasks.call(this);
 
 				}
 
